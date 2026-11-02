@@ -1,6 +1,6 @@
 # shimyunbo.com
 
-Yunbo Shim’s static research website. About, Research, and CV use a light editorial design; Timeline uses navy and teal. The Timeline navigation item and CTA keep that appearance across the site.
+Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses navy and teal. The Timeline navigation item and CTA keep that appearance across the site.
 
 ## Local development
 
@@ -17,6 +17,12 @@ The CV PDF at `public/files/cv.pdf` is a selected public CV generated from the w
 ## Timeline
 
 Seven toggle filters use OR semantics. No selected filter means All. Selection is reflected in the URL, supports back/forward, and preserves expanded entries. Native details remain usable without JavaScript. Reduced-motion settings remove animations. A deep link to a hidden entry clears filters and opens that entry. Cards preserve original date precision; visual spacing is not a duration scale.
+
+Cards use a measured, responsive two-column layout on desktop and one column on smaller screens. `src/lib/layout.ts` builds a monotone piecewise compressed time map from recorded date buckets. Every event node and duration endpoint shares that map. Long ranges use separate central lanes; dashed lines distinguish education and activities. Missing date parts are never displayed as invented exact dates. Semester buckets sort after known month dates within their year, matching the original data ordering. Overlap alone is not an affiliation. Add `relatedIds` only when the source explicitly establishes a relationship.
+
+The bottom-right Filter menu supports OR selection, Escape, outside clicks, and focus return. ResizeObserver measures expanded cards, viewport changes, and late content; cancellable FLIP transitions rebase from current visible positions. Native details are the no-JavaScript fallback.
+
+Browser validation: with the static preview on port 4321, run `python3 scripts/check-ui.py` (Python Playwright and Chromium required). Screenshots are written under `/tmp`.
 
 ## Deployment preparation
 
