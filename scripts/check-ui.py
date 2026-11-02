@@ -13,6 +13,13 @@ with sync_playwright() as p:
  for width in [390,768,1440]:
   page.set_viewport_size({'width':width,'height':950});page.goto('http://127.0.0.1:4321/timeline/');r=check_layout()
   if width==1440:assert r['sides']==2
+  assert page.locator('.entry[data-kind="event"]').evaluate_all("es=>es.every(e=>getComputedStyle(e).backgroundColor==='rgba(0, 0, 0, 0)' && getComputedStyle(e).borderTopWidth==='0px')")
+  assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)>=3)")
+  first=page.locator('.entry[data-kind="event"] summary').first
+  first.focus();page.keyboard.press('Enter');page.wait_for_timeout(300)
+  assert first.evaluate('(e)=>e.parentElement.open')
+  check_layout();page.keyboard.press('Enter');check_layout()
+
   page.locator('#filter-toggle').click();page.locator('[data-category="research"]').click();check_layout()
   page.locator('[data-category="honors"]').click();check_layout()
   page.keyboard.press('Escape');assert page.locator('#filter-toggle').evaluate('(e)=>e===document.activeElement')

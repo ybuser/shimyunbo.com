@@ -35,7 +35,7 @@ function layout(){
    const x=axis-10-lane*5;
    drawing+=line(x,anchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,anchor,x+3,anchor,'cap')+line(x-3,end,x+3,end,'cap');
    drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
-  }else drawing+=`<path class="event-node" d="M ${axis} ${anchor-5} l 5 5 l -5 5 l -5 -5 Z"/>`;
+  }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
   const old=before.get(c.id),next=c.getBoundingClientRect();
   if(!reduced.matches)c.animate(old?[{transform:`translate(${old.left-next.left}px,${old.top-next.top}px)`},{transform:'none'}]:[{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'});
  }

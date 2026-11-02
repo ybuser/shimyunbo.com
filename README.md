@@ -1,6 +1,6 @@
 # shimyunbo.com
 
-Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses navy and teal. The Timeline navigation item and CTA keep that appearance across the site.
+Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and muted sage. The Timeline navigation item and CTA keep that appearance across the site.
 
 ## Local development
 
@@ -15,6 +15,8 @@ Research, web CV, and Timeline use the same data. Mark `selected` for the concis
 The CV PDF at `public/files/cv.pdf` is a selected public CV generated from the web CV, not the original source document. Replace it after editing content; keep its URL stable. A reproducible local PDF generation helper is `scripts/generate-cv.py` (requires Python Playwright and Chromium). Start the preview on port 4321, run the helper, then rebuild. The PDF uses print styling with personal phone, home address and birth date excluded. Host only cleared author manuscripts; keep each version at a distinct path and add the approved link to its research page.
 
 ## Timeline
+
+Periods use continuous edge rails with endpoint caps and a subtle surface. Individual moments have no panel background or border: publications use editorial serif annotations, awards use restrained circular medallions, and certificates use compact check seals. Category text and dates remain visible alongside these visual cues; the entire summary is keyboard-operable.
 
 Seven toggle filters use OR semantics. No selected filter means All. Selection is reflected in the URL, supports back/forward, and preserves expanded entries. Native details remain usable without JavaScript. Reduced-motion settings remove animations. A deep link to a hidden entry clears filters and opens that entry. Cards preserve original date precision; visual spacing is not a duration scale.
 
