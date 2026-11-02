@@ -1,0 +1,37 @@
+{
+  "name": "shimyunbo.com",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build",
+    "check": "astro check",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "preview": "astro preview --host 0.0.0.0",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ybuser/shimyunbo.com.git"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ybuser/shimyunbo.com/issues"
+  },
+  "homepage": "https://github.com/ybuser/shimyunbo.com#readme",
+  "dependencies": {
+    "@astrojs/check": "0.9.12",
+    "astro": "7.4.4",
+    "typescript": "6.0.3"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "wrangler": "4.156.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
