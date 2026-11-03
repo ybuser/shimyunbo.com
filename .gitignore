@@ -5,3 +5,5 @@ dist/
 *.local
 
 .wrangler/
+# Unfinished CV must stay out of public assets.
+/public/files/cv.pdf

@@ -38,6 +38,17 @@ with sync_playwright() as p:
   assert page.locator('.entry[data-event-style="certificate"]').first.evaluate("e=>getComputedStyle(e).borderTopWidth==='1px'")
   assert page.locator('.entry[data-event-style="publication"]').first.evaluate("e=>getComputedStyle(e).borderLeftWidth==='3px'")
   assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderTopWidth)>=2 || e.dataset.visual==='volunteering')")
+  credential=page.locator('#opic')
+  credential.evaluate('(e)=>e.open=false');check_layout()
+  closed=credential.bounding_box()['height'];assert closed<95,closed
+  assert credential.locator('.organization').is_hidden()
+  credential.locator('summary').focus();page.keyboard.press('Enter');check_layout()
+  assert credential.evaluate('(e)=>e.open')
+  assert credential.bounding_box()['height']>closed
+  assert credential.locator('.organization').is_visible()
+  page.locator('#filter-toggle').click();page.locator('[data-category="research"]').click();check_layout()
+  page.go_back();check_layout();assert credential.is_visible() and credential.evaluate('(e)=>e.open')
+  page.keyboard.press('Escape');credential.locator('summary').focus();page.keyboard.press('Enter');check_layout()
   first=page.locator('.entry[data-kind="event"] summary').first
   first.focus();page.keyboard.press('Enter');page.wait_for_timeout(300)
   assert first.evaluate('(e)=>e.parentElement.open')
@@ -55,12 +66,18 @@ with sync_playwright() as p:
   page.evaluate('window.scrollTo(0,0)');page.screenshot(path=f'/tmp/shimyunbo-revised-timeline-{width}.png')
   page.goto('http://127.0.0.1:4321/');assert page.locator('.profile-art').count()==0
   assert page.locator('.work-notebook a').count()==3
+  assert page.get_by_text('I explore ideas through research and build them into software.',exact=True).count()==0
   assert page.locator('a[href="https://www.linkedin.com/in/yunbo-shim"]').count()==2
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.screenshot(path=f'/tmp/shimyunbo-revised-home-{width}.png')
   results.append({'width':width,'layout':r,'filters_expansion_focus_scroll':'passed'})
  page.emulate_media(reduced_motion='reduce');page.goto('http://127.0.0.1:4321/timeline/');check_layout();page.locator('#filter-toggle').click();page.locator('[data-category="work"]').click();check_layout();assert page.locator('#chronology').evaluate('(e)=>e.getAnimations({subtree:true}).length')==0
  page.set_viewport_size({'width':1440,'height':950});check_layout();page.set_viewport_size({'width':390,'height':950});check_layout()
+ page.goto('http://127.0.0.1:4321/cv/');assert page.locator('a[download],a[href="/files/cv.pdf"]').count()==0
+ missing=page.request.get('http://127.0.0.1:4321/files/cv.pdf');assert missing.status==404,missing.status
+ page.goto('http://127.0.0.1:4321/research/')
+ assert page.locator('a[href="https://github.com/ybuser/Academic-MOIRAI"]').count()==1
+ assert page.locator('a[href="https://github.com/ybuser/fancake_frontend"]').count()==1
  assert not errors,errors
  print(json.dumps({'results':results,'errors':errors,'reduced_motion_resize':'passed'},indent=2))
  b.close()
