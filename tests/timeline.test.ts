@@ -4,3 +4,11 @@ test('OR filtering and unique entries preserve publication/award cross-listing',
 test('partial dates and ongoing work sort without inventing precision',()=>{const set=[{...base,id:'year',date:'2024'},{...base,id:'month',date:'2024-05'},{...base,id:'day',date:'2024-05-20'},{...base,id:'ongoing',start:'2020',ongoing:true},{...base,id:'fall',date:'2024-Fall'}];assert.deepEqual(set.sort(compareEntries).map(e=>e.id),['ongoing','day','month','fall','year']);assert.equal(period(set.find(e=>e.id==='year')!),'2024');assert.equal(period({...base,date:'2023-Spring'}),'Spring 2023');});
 test('empty selection means all, nonmatching category returns empty',()=>{assert.equal(selectEntries(entries,[]).length,entries.length);assert.deepEqual(selectEntries([base],['work']),[]);});
 test('public data have unique ids, recorded dates and complete content',()=>{assert.equal(new Set(entries.map(e=>e.id)).size,entries.length);for(const e of entries){assert.ok(e.date||e.start);assert.ok(e.categories.length);assert.ok(e.details.length);assert.ok(e.title&&e.summary);}});
+test('confirmed Maritime Science & Technology date sorts in June 2026',()=>{
+ const paper=entries.find(e=>e.id==='drone-hyperspectral-2024')!;
+ assert.equal(paper.date,'2026-06');assert.equal(period(paper),'Jun 2026');
+ assert.ok(paper.summary.includes('June 2026'));assert.ok(paper.details.every(t=>!t.includes('2024')));
+ const result=selectEntries(entries,[]).map(e=>e.id);
+ assert.ok(result.indexOf('information-processing')<result.indexOf(paper.id));
+ assert.ok(result.indexOf(paper.id)<result.indexOf('bannangco'));
+});
