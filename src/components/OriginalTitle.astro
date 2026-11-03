@@ -1,0 +1,8 @@
+---
+import {paperTitles} from '../i18n/entries';
+import {translate,type Language} from '../i18n/ui';
+interface Props {id:string;lang:Language}
+const {id,lang}=Astro.props,p=paperTitles[id];
+const unofficial=['drone-hyperspectral-2024','defense-ms-records-2026','civilian-impact-2026'].includes(id);
+---
+{p&&<div class="original-title"><p><strong>{translate('Original title',lang)} ({p.language==='ko'?'한국어':'English'})</strong><br/><span lang={p.language}>{p.original}</span></p>{p.language==='ko'&&<p><strong>{translate(unofficial?'English translation (unofficial)':'English title from CV',lang)}</strong><br/><span lang="en">{p.en}</span></p>}</div>}

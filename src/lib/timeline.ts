@@ -1,13 +1,14 @@
 import type { Entry, Category } from '../data/entries.ts';
-export function dateText(value?: string): string {
+export function dateText(value?: string,lang:'en'|'ko'='en'): string {
  if (!value) return '';
  const [y,m,d]=value.split('-');
- if (!m) return y;
+ if (!m) return lang==='ko'?`${y}년`:y;
+ if(lang==='ko')return `${y}년 ${m==='Spring'?'봄학기':m==='Fall'?'가을학기':`${Number(m)}월${d?` ${Number(d)}일`:''}`}`;
  if (m==='Spring'||m==='Fall') return `${m} ${y}`;
  const month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][Number(m)-1];
  return `${month}${d ? ` ${Number(d)},` : ''} ${y}`;
 }
-export function period(e: Entry): string { return e.dateLabel ?? (e.date ? dateText(e.date) : `${dateText(e.start)} — ${e.ongoing ? 'Present' : dateText(e.end)}`); }
+export function period(e: Entry,lang:'en'|'ko'='en'): string { return e.dateLabel ?? (e.date ? dateText(e.date,lang) : `${dateText(e.start,lang)} — ${e.ongoing ? (lang==='ko'?'현재':'Present') : dateText(e.end,lang)}`); }
 // Missing months/days sort last within their known bucket; semester is its own bucket.
 function key(d=''): number[] { const [y,m,day]=d.split('-'); return [Number(y)||0, m==='Fall'||m==='Spring' ? 0 : Number(m)||0, Number(day)||0,m==='Fall'?2:m==='Spring'?1:0]; }
 export function compareEntries(a:Entry,b:Entry):number {

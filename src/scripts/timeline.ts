@@ -1,7 +1,10 @@
+import {language,translate,categoryLabels} from '../i18n/ui';
+import {localizedEntries} from '../i18n/entries';
+const lang=language(location.pathname),t=(s:string)=>translate(s,lang),entries=localizedEntries(lang),categories=categoryLabels(lang);
 import {installRailLens} from './rail-lens';
 import type {LensRail} from '../lib/rail-lens';
 import {period} from '../lib/timeline';
-import {entries,categories,type Category} from '../data/entries';
+import {type Category} from '../data/entries';
 import {arrange,timeKey,durationBounds} from '../lib/layout';
 import {railColor,railLabel} from '../lib/rail-colors';
 const host=document.querySelector<HTMLElement>('#chronology')!;
@@ -36,13 +39,13 @@ function layout(){
  for(const e of measured){
   const c=cards.find(c=>c.id===e.id)!,p=result.positions.get(e.id)!,anchor=result.ys.get(e.time)!;
   c.style.left=`${p.x}px`;c.style.top=`${p.y}px`;
-  const year=data.get(e.id)!.ongoing?'Now':String((data.get(e.id)!.date??data.get(e.id)!.end??'').slice(0,4));if(year!==lastYear){drawing+=`<text class="axis-year" x="${axis+8}" y="${anchor-12}">${year}</text>`;lastYear=year;}
+  const year=data.get(e.id)!.ongoing?t('Now'):String((data.get(e.id)!.date??data.get(e.id)!.end??'').slice(0,4));if(year!==lastYear){drawing+=`<text class="axis-year" x="${axis+8}" y="${anchor-12}">${year}</text>`;lastYear=year;}
   const edge=desktop&&p.side===0?p.x+result.cardWidth:p.x;
   drawing+=`<path class="connector" d="M ${axis} ${anchor} L ${edge+(edge<axis?12:-12)} ${anchor} L ${edge} ${p.y+22}"/>`;
   if(e.start!==undefined){
    const railAnchor=result.ys.get(e.end??e.time)!;const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=railAnchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
    const x=desktop?axis-18-lane*12:axis+14+lane*7;
-   lensRails.push({id:c.id,x,top:railAnchor,bottom:end,color:railColor(c.id),label:data.get(c.id)!.organization,period:period(data.get(c.id)!)});
+   lensRails.push({id:c.id,x,top:railAnchor,bottom:end,color:railColor(c.id),label:data.get(c.id)!.organization,period:period(data.get(c.id)!,lang)});
    drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,railAnchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,railAnchor,x+3,railAnchor,'cap')+line(x-3,end,x+3,end,'cap')+`<circle class="track-stop" cx="${x}" cy="${railAnchor}" r="9"/><text class="track-code" x="${x}" y="${railAnchor+3}">${railLabel(c.id)}</text></g>`;
    drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
   }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
@@ -52,8 +55,8 @@ function layout(){
  lens.update(lensRails,desktop?(width-gutter)/2:0,gutter);
  svg.setAttribute('viewBox',`0 0 ${width} ${result.height}`);svg.innerHTML=drawing;emphasize(cards.find(c=>!c.hidden&&c.dataset.kind==='duration'&&c.contains(document.activeElement))?.id);
  for(const b of buttons)b.setAttribute('aria-pressed',String(b.dataset.category==='all'?!selected.size:selected.has(b.dataset.category as Category)));
- document.querySelector('#results')!.textContent=`${visible.length} entries · ${selected.size?`${selected.size} categories selected`:'All categories'}`;
- document.querySelector('#filter-count')!.textContent=selected.size?String(selected.size):'All';
+ document.querySelector('#results')!.textContent=lang==='ko'?`${visible.length}개 이력 · ${selected.size?`${selected.size}개 카테고리 선택`:'전체 카테고리'}`:`${visible.length} entries · ${selected.size?`${selected.size} categories selected`:'All categories'}`;
+ document.querySelector('#filter-count')!.textContent=selected.size?String(selected.size):t('All');
  (document.querySelector('#empty') as HTMLElement).hidden=!!visible.length;
 }
 function schedule(){if(!frame)frame=requestAnimationFrame(layout);}
