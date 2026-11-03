@@ -86,3 +86,5 @@
 @media(max-width:360px){.site-header{padding-left:16px;padding-right:16px;column-gap:8px}.site-header .main-navigation{gap:9px}.site-header .main-navigation a{font-size:12px}.site-header .main-navigation .timeline-link{padding:8px}.site-header .wordmark{font-size:24px}}
 @media(max-width:360px){.site-header .main-navigation a{padding:8px 5px}.site-header .main-navigation .timeline-link{padding:8px 6px}.site-header .main-navigation{gap:6px}}
 .glass-source:before{white-space:nowrap}
+/* Quiet page titles with a compact keyboard-accessible magnifier. */
+.timeline-hero{display:flex;align-items:center;justify-content:space-between;gap:20px}.timeline-hero h1{margin:0}.timeline-hero #explore-rails{width:44px;height:44px;min-width:44px;padding:0;border-radius:50%;display:grid;place-items:center}.timeline-hero #explore-rails[hidden]{display:none}
