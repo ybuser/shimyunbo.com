@@ -21,7 +21,7 @@ function layout(){
  const width=host.clientWidth, desktop=width>=720, gutter=desktop?200:84;
  host.querySelectorAll('.exit-ghost').forEach(c=>c.remove());
  cards.forEach(c=>{if(!visible.includes(c)&&!c.hidden&&!reduced.matches){const r=c.getBoundingClientRect(),base=host.getBoundingClientRect();const ghost=c.cloneNode(true) as HTMLElement;ghost.removeAttribute('id');ghost.classList.add('exit-ghost');ghost.setAttribute('aria-hidden','true');ghost.inert=true;Object.assign(ghost.style,{position:'absolute',left:`${r.left-base.left}px`,top:`${r.top-base.top}px`,width:`${r.width}px`,pointerEvents:'none',zIndex:'2'});host.append(ghost);ghost.animate([{opacity:1},{opacity:0,transform:'scale(.97)'}],{duration:140}).finished.then(()=>ghost.remove()).catch(()=>ghost.remove());}c.hidden=!visible.includes(c);c.style.width=`${desktop?(width-gutter)/2:width-gutter}px`;});
- const measured=visible.map(c=>{const e=data.get(c.id)!;const range=e.start?durationBounds({...e,start:e.start},today):undefined;return {id:c.id,time:range?.end??timeKey(e.date!),start:range?.start,height:c.offsetHeight};});
+ const measured=visible.map(c=>{const e=data.get(c.id)!;const range=e.start?durationBounds({...e,start:e.start},today):undefined;return {id:c.id,time:e.ongoing?range!.end:timeKey(e.date??e.end!),start:range?.start,end:range?.end,height:c.offsetHeight};});
  const result=arrange(measured,width);host.classList.add('enhanced');host.style.height=`${result.height}px`;
  const axis=desktop?width/2:14;let drawing=line(axis,0,axis,result.height,'spine');
  const lanes:number[]=[];let lastYear='';
@@ -32,9 +32,9 @@ function layout(){
   const edge=desktop&&p.side===0?p.x+result.cardWidth:p.x;
   drawing+=`<path class="connector" d="M ${axis} ${anchor} L ${edge+(edge<axis?12:-12)} ${anchor} L ${edge} ${p.y+22}"/>`;
   if(e.start!==undefined){
-   const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=anchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
+   const railAnchor=result.ys.get(e.end??e.time)!;const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=railAnchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
    const x=desktop?axis-18-lane*12:axis+14+lane*7;
-   drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,anchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,anchor,x+3,anchor,'cap')+line(x-3,end,x+3,end,'cap')+`<circle class="track-stop" cx="${x}" cy="${anchor}" r="9"/><text class="track-code" x="${x}" y="${anchor+3}">${railLabel(c.id)}</text></g>`;
+   drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,railAnchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,railAnchor,x+3,railAnchor,'cap')+line(x-3,end,x+3,end,'cap')+`<circle class="track-stop" cx="${x}" cy="${railAnchor}" r="9"/><text class="track-code" x="${x}" y="${railAnchor+3}">${railLabel(c.id)}</text></g>`;
    drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
   }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
   const old=before.get(c.id),next=c.getBoundingClientRect();

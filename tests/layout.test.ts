@@ -53,3 +53,14 @@ test('duration ribbons retain a readable span on the single shared axis',()=>{
  assert.ok(r.ys.get(start)!-r.ys.get(end)!>=110);
  assert.ok(r.positions.has('moment'));
 });
+
+test('2022 inclusive end boundary cannot promote the IBK card into 2023',()=>{
+ const ibk=entries.find(e=>e.id==='ibk')!;const range=durationBounds({...ibk,start:ibk.start!});
+ const ids=['ibk','excellence-2023','ta-fall','ta-spring'];
+ const items=entries.filter(e=>ids.includes(e.id)).map(e=>({id:e.id,time:timeKey(e.date??e.end!),start:e.start?range.start:undefined,end:e.start?range.end:undefined,height:240}));
+ for(const width of [390,768,1440]){
+  const r=arrange(items,width);for(const id of ids.filter(id=>id!=='ibk'))assert.ok(r.positions.get(id)!.y<r.positions.get('ibk')!.y);
+  assert.equal(range.end,timeKey('2023-01-01'));
+  assert.ok(r.ys.get(range.end)!<r.ys.get(timeKey('2022-12'))!);
+ }
+});

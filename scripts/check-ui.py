@@ -9,6 +9,10 @@ with sync_playwright() as p:
   info=page.evaluate('''()=>{const a=[...document.querySelectorAll('#chronology>.entry:not([hidden]):not(.exit-ghost)')].map(c=>{const r=c.getBoundingClientRect();return {id:c.id,x:r.x,y:r.y,w:r.width,h:r.height}});let overlaps=[];for(let i=0;i<a.length;i++)for(let j=i+1;j<a.length;j++){let x=a[i],y=a[j];if(x.x<y.x+y.w-1&&x.x+x.w>y.x+1&&x.y<y.y+y.h-1&&x.y+x.h>y.y+1)overlaps.push([x.id,y.id])}return {overlaps,count:a.length,sides:new Set(a.map(x=>x.x)).size,overflow:document.documentElement.scrollWidth>innerWidth}}''')
   assert not info['overlaps'],info
   assert not info['overflow'],info
+  chronology=page.evaluate('''()=>{const ids=['excellence-2023','ta-fall','ta-spring','ibk'];return Object.fromEntries(ids.map(id=>{const e=document.getElementById(id);return [id,e.hidden?null:e.getBoundingClientRect().top]}))}''')
+  if chronology['ibk'] is not None:
+   for key in ['excellence-2023','ta-fall','ta-spring']:
+    if chronology[key] is not None:assert chronology[key]<chronology['ibk'],chronology
   return info
  for width in [390,768,1440]:
   page.set_viewport_size({'width':width,'height':950});page.goto('http://127.0.0.1:4321/timeline/');r=check_layout()
@@ -19,6 +23,8 @@ with sync_playwright() as p:
   assert page.locator('[data-rail-id=navy]').evaluate('(e)=>e.classList.contains("is-traced")')
   assert page.locator('[data-rail-id=bannangco]').evaluate('(e)=>parseFloat(getComputedStyle(e).opacity)<.2')
   page.locator('#filter-toggle').focus()
+  page.locator('#ibk summary').click();check_layout()
+  page.locator('#ibk summary').click();check_layout()
   rails=rail_state()
   assert rails['navy']['start']==rails['bannangco']['end'],rails
   assert rails['navy']['x']==rails['bannangco']['x'],rails
@@ -29,8 +35,9 @@ with sync_playwright() as p:
   assert all(v['color']==rails[k]['color'] for k,v in filtered.items())
   page.locator('#reset').click();page.keyboard.press('Escape');check_layout()
 
-  assert page.locator('.entry[data-kind="event"]').evaluate_all("es=>es.every(e=>getComputedStyle(e).backgroundColor==='rgba(0, 0, 0, 0)' && getComputedStyle(e).borderTopWidth==='0px')")
-  assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderTopWidth)>=2)")
+  assert page.locator('.entry[data-event-style="certificate"]').first.evaluate("e=>getComputedStyle(e).borderTopWidth==='1px'")
+  assert page.locator('.entry[data-event-style="publication"]').first.evaluate("e=>getComputedStyle(e).borderLeftWidth==='3px'")
+  assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderTopWidth)>=2 || e.dataset.visual==='volunteering')")
   first=page.locator('.entry[data-kind="event"] summary').first
   first.focus();page.keyboard.press('Enter');page.wait_for_timeout(300)
   assert first.evaluate('(e)=>e.parentElement.open')

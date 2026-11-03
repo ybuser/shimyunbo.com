@@ -21,17 +21,17 @@ export function durationBounds(entry:{start:string;end?:string;ongoing?:boolean}
  return {start,end:timeKey(end)};
 }
 
-export interface Measured {id:string;time:number;start?:number;height:number}
+export interface Measured {id:string;time:number;start?:number;end?:number;height:number}
 export function arrange(items:Measured[],width:number){
  const desktop=width>=720, gutter=desktop?200:84, cardWidth=desktop?(width-gutter)/2:width-gutter;
- const knots=[...new Set(items.flatMap(e=>e.start===undefined?[e.time]:[e.time,e.start]))].sort((a,b)=>b-a);
+ const knots=[...new Set(items.flatMap(e=>e.start===undefined?[e.time]:[e.time,e.start,e.end??e.time]))].sort((a,b)=>b-a);
  const ys=new Map<number,number>(), positions=new Map<string,{x:number;y:number;side:number}>();
  const bottoms=[0,0];let y=35,previous=knots[0]??0,lastTop=0;
  for(const time of knots){
   y+=Math.min(55,22+(previous-time)*12);previous=time;
   // Give short visual spans enough length to trace, using the same shared knot.
-  for(const interval of items)if(interval.start===time&&interval.time>time){
-   const endY=ys.get(interval.time);if(endY!==undefined)y=Math.max(y,endY+110);
+  for(const interval of items)if(interval.start===time&&(interval.end??interval.time)>time){
+   const endY=ys.get(interval.end??interval.time);if(endY!==undefined)y=Math.max(y,endY+110);
   }
   const group=items.filter(e=>e.time===time);
   if(group.length)y=Math.max(y,lastTop+20,desktop?Math.min(...bottoms)+30:bottoms[0]+30);
