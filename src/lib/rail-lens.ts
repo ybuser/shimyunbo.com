@@ -1,7 +1,7 @@
-export interface LensRail {id:string;top:number;bottom:number;color:string;label:string;period:string}
+export interface LensRail {id:string;x:number;top:number;bottom:number;color:string;label:string;period:string}
 export function railsAt(rails:LensRail[],y:number){return rails.filter(r=>r.top<=y&&r.bottom>=y);}
-export function placeLens(x:number,y:number,width:number,height:number,vw:number,vh:number){
- const left=Math.max(12,Math.min(x+18,vw-width-12));
- const top=Math.max(12,Math.min(y+18+height<=vh-12?y+18:y-height-18,vh-height-12));
- return {left,top};
+export function placeGlass(x:number,y:number,size:number,vw:number,vh:number){
+ return {left:Math.max(16,Math.min(x-size/2,vw-size-16)),top:Math.max(16,Math.min(y-size/2,vh-size-84))};
 }
+export function projectRail(r:LensRail,cx:number,cy:number,zoom:number,size:number){return {x:(r.x-cx)*zoom+size/2,top:(r.top-cy)*zoom+size/2,bottom:(r.bottom-cy)*zoom+size/2};}
+export function lensZoom(rails:LensRail[]){const xs=[...new Set(rails.map(r=>r.x))].sort((a,b)=>a-b);const gaps=xs.slice(1).map((x,i)=>x-xs[i]).filter(x=>x>0);return Math.max(4,44/Math.min(12,...gaps));}

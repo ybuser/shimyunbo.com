@@ -42,7 +42,7 @@ function layout(){
   if(e.start!==undefined){
    const railAnchor=result.ys.get(e.end??e.time)!;const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=railAnchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
    const x=desktop?axis-18-lane*12:axis+14+lane*7;
-   lensRails.push({id:c.id,top:railAnchor,bottom:end,color:railColor(c.id),label:data.get(c.id)!.organization,period:period(data.get(c.id)!)});
+   lensRails.push({id:c.id,x,top:railAnchor,bottom:end,color:railColor(c.id),label:data.get(c.id)!.organization,period:period(data.get(c.id)!)});
    drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,railAnchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,railAnchor,x+3,railAnchor,'cap')+line(x-3,end,x+3,end,'cap')+`<circle class="track-stop" cx="${x}" cy="${railAnchor}" r="9"/><text class="track-code" x="${x}" y="${railAnchor+3}">${railLabel(c.id)}</text></g>`;
    drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
   }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
