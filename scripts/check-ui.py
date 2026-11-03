@@ -15,6 +15,10 @@ with sync_playwright() as p:
   if width==1440:assert r['sides']==2
   def rail_state():
    return page.locator('[data-rail-id]').evaluate_all("es=>Object.fromEntries(es.map(e=>{const l=e.querySelector('.duration-rail');return [e.dataset.railId,{color:getComputedStyle(l).stroke,x:l.getAttribute('x1'),start:l.getAttribute('y2'),end:l.getAttribute('y1')}]}))")
+  period=page.locator('#navy summary');period.focus();page.wait_for_timeout(200)
+  assert page.locator('[data-rail-id=navy]').evaluate('(e)=>e.classList.contains("is-traced")')
+  assert page.locator('[data-rail-id=bannangco]').evaluate('(e)=>parseFloat(getComputedStyle(e).opacity)<.2')
+  page.locator('#filter-toggle').focus()
   rails=rail_state()
   assert rails['navy']['start']==rails['bannangco']['end'],rails
   assert rails['navy']['x']==rails['bannangco']['x'],rails
@@ -26,7 +30,7 @@ with sync_playwright() as p:
   page.locator('#reset').click();page.keyboard.press('Escape');check_layout()
 
   assert page.locator('.entry[data-kind="event"]').evaluate_all("es=>es.every(e=>getComputedStyle(e).backgroundColor==='rgba(0, 0, 0, 0)' && getComputedStyle(e).borderTopWidth==='0px')")
-  assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)>=3)")
+  assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderTopWidth)>=2)")
   first=page.locator('.entry[data-kind="event"] summary').first
   first.focus();page.keyboard.press('Enter');page.wait_for_timeout(300)
   assert first.evaluate('(e)=>e.parentElement.open')
@@ -42,7 +46,9 @@ with sync_playwright() as p:
   page.mouse.click(5,5);assert page.locator('#filter-panel').is_hidden()
   page.evaluate('window.scrollTo(0,1500)');assert page.locator('#filter-toggle').bounding_box()['y']<950
   page.evaluate('window.scrollTo(0,0)');page.screenshot(path=f'/tmp/shimyunbo-revised-timeline-{width}.png')
-  page.goto('http://127.0.0.1:4321/');assert page.locator('a[href="https://www.linkedin.com/in/yunbo-shim"]').count()==2
+  page.goto('http://127.0.0.1:4321/');assert page.locator('.profile-art').count()==0
+  assert page.locator('.work-notebook a').count()==3
+  assert page.locator('a[href="https://www.linkedin.com/in/yunbo-shim"]').count()==2
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   page.screenshot(path=f'/tmp/shimyunbo-revised-home-{width}.png')
   results.append({'width':width,'layout':r,'filters_expansion_focus_scroll':'passed'})

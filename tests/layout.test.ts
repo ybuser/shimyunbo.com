@@ -46,3 +46,10 @@ test('duration colors belong to stable entry IDs, not category, order or filter'
  assert.notEqual(railColor('navy'),railColor('bannangco'));
  assert.equal(railColor('future-entry'),railColor('future-entry'));
 });
+
+test('duration ribbons retain a readable span on the single shared axis',()=>{
+ const end=timeKey('2025-08'),start=timeKey('2025-07');
+ const r=arrange([{id:'a',time:end,start,height:200},{id:'moment',time:start,height:100}],1100);
+ assert.ok(r.ys.get(start)!-r.ys.get(end)!>=110);
+ assert.ok(r.positions.has('moment'));
+});

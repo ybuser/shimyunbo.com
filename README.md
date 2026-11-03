@@ -1,6 +1,6 @@
 # shimyunbo.com
 
-Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and muted sage. The Timeline navigation item and CTA keep that appearance across the site.
+Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and distinct colored experience ribbons. The About hero combines a typographic introduction with linked, asymmetric research and product notes rather than a portrait placeholder. The Timeline navigation item and CTA keep that appearance across the site.
 
 ## Local development
 
@@ -16,7 +16,7 @@ The CV PDF at `public/files/cv.pdf` is a selected public CV generated from the w
 
 ## Timeline
 
-Periods use continuous edge rails with endpoint caps and a subtle surface. Individual moments have no panel background or border: publications use editorial serif annotations, awards use restrained circular medallions, and certificates use compact check seals. Category text and dates remain visible alongside these visual cues; the entire summary is keyboard-operable.
+Periods use indexed organization headers and strong colored ribbons on a shared axis, with matching open typographic entries. Hover or keyboard focus isolates an interval and reveals its ribbon number; focus and reduced-motion behavior remain supported. Individual moments have no panel background or border: publications use editorial serif annotations, awards use restrained circular medallions, and certificates use compact check seals. Category text and dates remain visible alongside these visual cues; the entire summary is keyboard-operable.
 
 Seven toggle filters use OR semantics. No selected filter means All. Selection is reflected in the URL, supports back/forward, and preserves expanded entries. Native details remain usable without JavaScript. Reduced-motion settings remove animations. A deep link to a hidden entry clears filters and opens that entry. Cards preserve original date precision; visual spacing is not a duration scale.
 
