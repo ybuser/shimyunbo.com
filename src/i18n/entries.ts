@@ -1,6 +1,8 @@
 import {entries as source,type Entry} from '../data/entries.ts';
 // Editorial translations of approved public content. Dates and IDs remain shared.
 const ko:Record<string,[string,string,string,string[]]>={
+'born':['출생','개인 이력','2001년 7월 5일 출생.',['생년월일: 2001년 7월 5일.']],
+'navy-enlistment':['대한민국 해군 입대','대한민국 해군','2025년 8월 18일 해군 입대.',['입대일: 2025년 8월 18일.']],
 'jade-apple-studio':['산학협력 연구 프로젝트','제이드애플스튜디오 · 성균관대학교 IoT 연구실','프라이빗 블록체인 네트워크 및 웹 플랫폼 개발.',['프로젝트명: 블록체인 기반 SNS 인플루언서 마케팅 플랫폼 개발.','지도교수: 정재훈.','웹 플랫폼을 위한 프라이빗 블록체인 네트워크를 설계하고 Hyperledger Fabric 스마트 컨트랙트와 블록체인 기반 웹 플랫폼을 개발했습니다.']],
 'computing-student-council':['사무국장','소프트웨어융합대학 학생회','학과 행사 기획, 학생·교수 간 소통, 학생 복지.',['학과 행사를 기획하고 학생과 교수 간의 소통을 지원했습니다.','학생 복지 증진, 예산 관리, 협력업체 관리 및 총회 진행을 담당했습니다.']],
 'navy':['AI개발특기병','대한민국 해군','정보 추출, 시뮬레이션 및 영상 모니터링 연구를 위한 AI 개발.',['대한민국 해군에서 AI개발특기병으로 복무 중입니다.']],
@@ -23,12 +25,15 @@ const ko:Record<string,[string,string,string,string[]]>={
 'hackathon-2022':['최우수상','한국컴퓨터교육학회','SW중심대학 캡스톤 디자인 및 AI 해커톤 경진대회.',['SW중심대학 캡스톤 디자인 및 AI 해커톤 경진대회 최우수상.']],
 'ai-competition-2022':['장려상','SW중심대학협의회','SW중심대학 공동 AI 경진대회.',['SW중심대학 공동 AI 경진대회 장려상.']],
 'craftsman':['프로그래밍기능사','한국산업인력공단','프로그래밍 국가기술자격 · 구 정보처리기능사.',['현재 자격 명칭은 프로그래밍기능사(구 정보처리기능사)입니다. 표시된 날짜는 최초 취득일입니다.']],
-'tashkent':['','타슈켄트 국제학교','국제학교 재학.',['Director’s Award 3회, Principal’s Award 1회 수상. 개별 수상 시점은 명시되지 않았습니다.']],
+'tashkent':['','타슈켄트 국제학교 (Tashkent International School)','국제학교 재학.',['Director’s Award 3회, Principal’s Award 1회 수상. 개별 수상 시점은 명시되지 않았습니다.']],
 'dubai':['','American School of Dubai','국제학교 재학.',['American School of Dubai에 재학했습니다.']],
 'hcmc':['','International School of Ho Chi Minh City','국제학교 재학.',['International School of Ho Chi Minh City에 재학했습니다.']],
  'ta-fall':['조교 · 시스템프로그래밍실습','성균관대학교','담당교수: 이준원.',['담당교수: 이준원.']],
  'ta-spring':['조교 · 공학컴퓨터프로그래밍','성균관대학교','담당교수: 정윤경.',['담당교수: 정윤경.']],
 };
+
+const moves:Record<string,string>={'move-hcmc':'베트남 호치민시티','move-seoul':'대한민국 서울','move-dubai':'아랍에미리트 두바이','move-tashkent':'우즈베키스탄 타슈켄트','move-ulsan':'대한민국 울산','move-pohang':'대한민국 포항','move-suwon':'대한민국 수원'};
+for(const [id,city] of Object.entries(moves)){const final=(city.charCodeAt(city.length-1)-0xAC00)%28;const to=final===0||final===8?'로':'으로';ko[id]=[`${city}${to} 이사`,city,`${city}${to} 거주지를 옮겼습니다.`,[`${city}${to} 이사했습니다.`]];}
 const awards:Record<string,string>={'deans-list':'Dean’s List','recommendation':'학과 추천 장학금','excellence-2022':'성적우수 장학금','excellence-2023':'성적우수 장학금','leader-spring':'학생성공 리더 장학금','leader-fall':'학생성공 리더 장학금'};
 for(const [id,title] of Object.entries(awards))ko[id]=[title,'성균관대학교','학업 성취에 대한 인정.',['표시된 학기에 수상했습니다.']];
 // Original titles are those supplied in the current CV; translated titles are identified in details.

@@ -9,9 +9,9 @@ test('language URLs preserve existing English routes, query and entry anchors',(
  assert.equal(language('/knowledge/'),'en');
 });
 test('all translations share factual dates, IDs, category membership, chronology and relation targets',()=>{
- const en=localizedEntries('en'),ko=localizedEntries('ko');assert.equal(ko.length,41);
+ const en=localizedEntries('en'),ko=localizedEntries('ko');assert.equal(ko.length,50);
  for(let i=0;i<en.length;i++){for(const key of ['id','date','start','end','ongoing','categories','relatedIds'] as const)assert.deepEqual(ko[i][key],en[i][key]);assert.ok(ko[i].organization);assert.ok(ko[i].details.length);}
- assert.deepEqual(selectEntries(en,[]).map(e=>e.id),selectEntries(ko,[]).map(e=>e.id));assert.equal(Object.keys(categoryLabels('ko')).length,7);
+ assert.deepEqual(selectEntries(en,[]).map(e=>e.id),selectEntries(ko,[]).map(e=>e.id));assert.equal(Object.keys(categoryLabels('ko')).length,8);
 });
 test('paper titles use CV Korean titles and overseas originals; English titles and original titles are explicit',()=>{
  const en=localizedEntries('en'),ko=localizedEntries('ko');

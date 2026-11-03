@@ -26,12 +26,14 @@ with sync_playwright() as p:
   page.locator('#ibk summary').click();check_layout()
   page.locator('#ibk summary').click();check_layout()
   rails=rail_state()
-  assert rails['navy']['start']==rails['bannangco']['end'],rails
+  # Exact 18 August enlistment supersedes the former month-only adjacency.
+  assert float(rails['navy']['start'])<float(rails['bannangco']['end']),rails
+  assert rails['dubai']['end']==rails['tashkent']['start'],rails
   assert rails['navy']['x']==rails['bannangco']['x'],rails
   assert rails['navy']['color']!=rails['bannangco']['color']
   page.locator('#filter-toggle').click();page.locator('[data-category="work"]').click();check_layout()
   filtered=rail_state()
-  assert filtered['navy']['start']==filtered['bannangco']['end']
+  assert float(filtered['navy']['start'])<float(filtered['bannangco']['end'])
   assert all(v['color']==rails[k]['color'] for k,v in filtered.items())
   page.locator('#reset').click();page.keyboard.press('Escape');check_layout()
 

@@ -88,3 +88,5 @@
 .glass-source:before{white-space:nowrap}
 /* Quiet page titles with a compact keyboard-accessible magnifier. */
 .timeline-hero{display:flex;align-items:center;justify-content:space-between;gap:20px}.timeline-hero h1{margin:0}.timeline-hero #explore-rails{width:44px;height:44px;min-width:44px;padding:0;border-radius:50%;display:grid;place-items:center}.timeline-hero #explore-rails[hidden]{display:none}
+/* Personal milestones: small pin/star/anchor markers on open typographic rows. */
+.entry.compact[data-event-style=life]{border:0;background:transparent;border-radius:0;box-shadow:none}.entry.compact[data-event-style=life] summary{border-bottom:1px dashed #4a5552;padding-top:16px;padding-bottom:16px}.entry.compact[data-event-style=life] .event-emblem{border:0;background:none;color:#b4d0c5;border-radius:0}.entry.compact[data-event-style=life][data-visual=birth] .event-emblem{color:#e1c789}.entry.compact[data-event-style=life][data-visual=enlistment] .event-emblem{color:#8abce1}.entry.compact[data-event-style=life] .entry-format{letter-spacing:.06em}.entry.compact[data-event-style=life] .entry-body{padding-top:10px}
