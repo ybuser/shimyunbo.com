@@ -2,8 +2,25 @@
  * Partial dates are ordered buckets, never synthesized exact calendar days. */
 export function timeKey(value:string):number {
  const [y,m,d]=value.split('-');
- return +y+(m==='Spring'?.001:m==='Fall'?.002:m?(+m)/13:0)+(Number(d)||0)/500;
+ const year=+y;
+ // Imprecise year/semester buckets stay approximate, before known months.
+ if(!m||m==='Spring'||m==='Fall')return year+(m==='Spring'?.001:m==='Fall'?.002:0);
+ const origin=Date.UTC(year,0,1),days=(Date.UTC(year+1,0,1)-origin)/86400000;
+ return year+((Date.UTC(year,+m-1,+(d??1))-origin)/86400000+1)/(days+1);
 }
+/** Month-only periods include the whole ending month; labels remain untouched. */
+export function durationBounds(entry:{start:string;end?:string;ongoing?:boolean},today=new Date()){
+ const start=timeKey(entry.start);
+ if(entry.ongoing)return {start,end:timeKey(today.toISOString().slice(0,10))};
+ const end=entry.end!;
+ if(/^\d{4}-\d{2}$/.test(end)){
+  const [year,month]=end.split('-').map(Number);
+  const next=new Date(Date.UTC(year,month,1)).toISOString().slice(0,10);
+  return {start,end:timeKey(next)};
+ }
+ return {start,end:timeKey(end)};
+}
+
 export interface Measured {id:string;time:number;start?:number;height:number}
 export function arrange(items:Measured[],width:number){
  const desktop=width>=720, gutter=desktop?132:66, cardWidth=desktop?(width-gutter)/2:width-gutter;

@@ -1,5 +1,6 @@
 import {entries,categories,type Category} from '../data/entries';
-import {arrange,timeKey} from '../lib/layout';
+import {arrange,timeKey,durationBounds} from '../lib/layout';
+import {railColor} from '../lib/rail-colors';
 const host=document.querySelector<HTMLElement>('#chronology')!;
 const svg=document.querySelector<SVGElement>('#time-lines')!;
 const cards=[...host.querySelectorAll<HTMLDetailsElement>('.entry')];
@@ -10,7 +11,7 @@ const dock=document.querySelector<HTMLElement>('#filter-dock')!;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let selected=new Set<Category>(), frame=0;
 const data=new Map(entries.map(e=>[e.id,e]));
-const today=new Date();const now=today.getFullYear()+(today.getMonth()+1)/13+today.getDate()/500;
+const today=new Date();
 function line(x1:number,y1:number,x2:number,y2:number,cls='connector'){return `<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;}
 function layout(){
  frame=0;
@@ -20,20 +21,20 @@ function layout(){
  const width=host.clientWidth, desktop=width>=720, gutter=desktop?132:66;
  host.querySelectorAll('.exit-ghost').forEach(c=>c.remove());
  cards.forEach(c=>{if(!visible.includes(c)&&!c.hidden&&!reduced.matches){const r=c.getBoundingClientRect(),base=host.getBoundingClientRect();const ghost=c.cloneNode(true) as HTMLElement;ghost.removeAttribute('id');ghost.classList.add('exit-ghost');ghost.setAttribute('aria-hidden','true');ghost.inert=true;Object.assign(ghost.style,{position:'absolute',left:`${r.left-base.left}px`,top:`${r.top-base.top}px`,width:`${r.width}px`,pointerEvents:'none',zIndex:'2'});host.append(ghost);ghost.animate([{opacity:1},{opacity:0,transform:'scale(.97)'}],{duration:140}).finished.then(()=>ghost.remove()).catch(()=>ghost.remove());}c.hidden=!visible.includes(c);c.style.width=`${desktop?(width-gutter)/2:width-gutter}px`;});
- const measured=visible.map(c=>{const e=data.get(c.id)!;return {id:c.id,time:e.ongoing?now:timeKey(e.date??e.end!),start:e.start?timeKey(e.start):undefined,height:c.offsetHeight};});
+ const measured=visible.map(c=>{const e=data.get(c.id)!;const range=e.start?durationBounds({...e,start:e.start},today):undefined;return {id:c.id,time:range?.end??timeKey(e.date!),start:range?.start,height:c.offsetHeight};});
  const result=arrange(measured,width);host.classList.add('enhanced');host.style.height=`${result.height}px`;
  const axis=desktop?width/2:24;let drawing=line(axis,0,axis,result.height,'spine');
  const lanes:number[]=[];let lastYear='';
  for(const e of measured){
   const c=cards.find(c=>c.id===e.id)!,p=result.positions.get(e.id)!,anchor=result.ys.get(e.time)!;
   c.style.left=`${p.x}px`;c.style.top=`${p.y}px`;
-  const year=data.get(e.id)!.ongoing?'Now':String(Math.floor(e.time));if(year!==lastYear){drawing+=`<text class="axis-year" x="${axis+8}" y="${anchor-12}">${year}</text>`;lastYear=year;}
+  const year=data.get(e.id)!.ongoing?'Now':String((data.get(e.id)!.date??data.get(e.id)!.end??'').slice(0,4));if(year!==lastYear){drawing+=`<text class="axis-year" x="${axis+8}" y="${anchor-12}">${year}</text>`;lastYear=year;}
   const edge=desktop&&p.side===0?p.x+result.cardWidth:p.x;
   drawing+=`<path class="connector" d="M ${axis} ${anchor} L ${edge+(edge<axis?12:-12)} ${anchor} L ${edge} ${p.y+22}"/>`;
   if(e.start!==undefined){
-   const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<anchor-8);if(lane<0)lane=lanes.length;lanes[lane]=end;
+   const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=anchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
    const x=axis-10-lane*5;
-   drawing+=line(x,anchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,anchor,x+3,anchor,'cap')+line(x-3,end,x+3,end,'cap');
+   drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,anchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,anchor,x+3,anchor,'cap')+line(x-3,end,x+3,end,'cap')+'</g>';
    drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
   }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
   const old=before.get(c.id),next=c.getBoundingClientRect();

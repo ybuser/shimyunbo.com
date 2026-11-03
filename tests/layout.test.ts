@@ -1,5 +1,7 @@
+import {railColor} from '../src/lib/rail-colors.ts';
+import {entries} from '../src/data/entries.ts';
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {arrange,timeKey} from '../src/lib/layout.ts';
+import {arrange,timeKey,durationBounds} from '../src/lib/layout.ts';
 test('shared axis is monotone and ranges use exactly the same time knots',()=>{
  const r=arrange([{id:'a',time:2026,start:2020,height:300},{id:'b',time:2024,height:180},{id:'c',time:2024,height:500},{id:'d',time:2022,start:2020,height:200}],1100);
  assert.ok(r.ys.get(2026)!<r.ys.get(2024)!&&r.ys.get(2024)!<r.ys.get(2020)!);
@@ -14,3 +16,33 @@ test('filter and viewport recompute sides without data-side assignments',()=>{
  assert.equal(arrange([],390).positions.size,0);
 });
 test('partial date buckets retain chronology without exact-day substitution',()=>{assert.ok(timeKey('2023')<timeKey('2023-Spring'));assert.ok(timeKey('2023-Spring')<timeKey('2023-Fall'));assert.ok(timeKey('2023-11')<timeKey('2023-11-30'));});
+
+test('inclusive ending months share exact boundaries with following starts',()=>{
+ const a=durationBounds({start:'2024-03',end:'2025-07'});
+ const b=durationBounds({start:'2025-08',ongoing:true},new Date('2026-11-03T12:00:00Z'));
+ assert.equal(a.end,b.start);
+ assert.equal(b.end,timeKey('2026-11-03'));
+ for(const width of [390,768,1440])for(const extra of [[],[{id:'event',time:timeKey('2025-09'),height:140}]]){
+  const r=arrange([{id:'navy',start:b.start,time:b.end,height:220},{id:'bannangco',start:a.start,time:a.end,height:260},...extra],width);
+  assert.equal(r.ys.get(a.end),r.ys.get(b.start));
+ }
+ assert.ok(durationBounds({start:'2025-01',end:'2025-06'}).end<b.start,'a real July gap remains');
+});
+test('month endpoints roll through December and leap/common February',()=>{
+ for(const [end,next] of [['2023-12','2024-01-01'],['2024-02','2024-03-01'],['2025-02','2025-03-01']]){
+  const r=durationBounds({start:end,end});assert.equal(r.end,timeKey(next));assert.ok(r.end>r.start);
+ }
+ assert.ok(timeKey('2024-02-28')<timeKey('2024-02-29'));
+ assert.ok(timeKey('2024-02-29')<timeKey('2024-03-01'));
+ assert.equal(durationBounds({start:'2024-02-02',end:'2024-02-20'}).end,timeKey('2024-02-20'));
+ assert.equal(durationBounds({start:'2013',end:'2014'}).end,timeKey('2014'));
+});
+test('duration colors belong to stable entry IDs, not category, order or filter',()=>{
+ const ranges=entries.filter(e=>e.start);
+ const snapshot=new Map(ranges.map(e=>[e.id,railColor(e.id)]));
+ assert.equal(new Set(snapshot.values()).size,ranges.length);
+ for(const list of [[...ranges].reverse(),ranges.filter(e=>e.categories.includes('work'))])
+  for(const e of list)assert.equal(railColor(e.id),snapshot.get(e.id));
+ assert.notEqual(railColor('navy'),railColor('bannangco'));
+ assert.equal(railColor('future-entry'),railColor('future-entry'));
+});

@@ -13,6 +13,18 @@ with sync_playwright() as p:
  for width in [390,768,1440]:
   page.set_viewport_size({'width':width,'height':950});page.goto('http://127.0.0.1:4321/timeline/');r=check_layout()
   if width==1440:assert r['sides']==2
+  def rail_state():
+   return page.locator('[data-rail-id]').evaluate_all("es=>Object.fromEntries(es.map(e=>{const l=e.querySelector('.duration-rail');return [e.dataset.railId,{color:getComputedStyle(l).stroke,x:l.getAttribute('x1'),start:l.getAttribute('y2'),end:l.getAttribute('y1')}]}))")
+  rails=rail_state()
+  assert rails['navy']['start']==rails['bannangco']['end'],rails
+  assert rails['navy']['x']==rails['bannangco']['x'],rails
+  assert rails['navy']['color']!=rails['bannangco']['color']
+  page.locator('#filter-toggle').click();page.locator('[data-category="work"]').click();check_layout()
+  filtered=rail_state()
+  assert filtered['navy']['start']==filtered['bannangco']['end']
+  assert all(v['color']==rails[k]['color'] for k,v in filtered.items())
+  page.locator('#reset').click();page.keyboard.press('Escape');check_layout()
+
   assert page.locator('.entry[data-kind="event"]').evaluate_all("es=>es.every(e=>getComputedStyle(e).backgroundColor==='rgba(0, 0, 0, 0)' && getComputedStyle(e).borderTopWidth==='0px')")
   assert page.locator('.entry[data-kind="duration"]').evaluate_all("es=>es.every(e=>parseFloat(getComputedStyle(e).borderLeftWidth)>=3)")
   first=page.locator('.entry[data-kind="event"] summary').first
