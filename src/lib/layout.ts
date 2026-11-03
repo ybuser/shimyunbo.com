@@ -22,9 +22,17 @@ export function durationBounds(entry:{start:string;end?:string;ongoing?:boolean}
 }
 
 export interface Measured {id:string;time:number;start?:number;end?:number;height:number}
+export function yearTicks(items:Measured[]){
+ const times=items.flatMap(e=>e.start===undefined?[e.time]:[e.time,e.start,e.end??e.time]);
+ if(!times.length)return [];
+ const min=Math.min(...times),max=Math.max(...times),ticks:{date:string;time:number}[]=[];
+ for(let year=Math.floor(min);year<=Math.floor(max);year++){const date=`${year}-01-01`,time=timeKey(date);if(time>=min&&time<=max)ticks.push({date,time});}
+ return ticks;
+}
 export function arrange(items:Measured[],width:number){
  const desktop=width>=720, gutter=desktop?200:84, cardWidth=desktop?(width-gutter)/2:width-gutter;
- const knots=[...new Set(items.flatMap(e=>e.start===undefined?[e.time]:[e.time,e.start,e.end??e.time]))].sort((a,b)=>b-a);
+ const ticks=yearTicks(items);
+ const knots=[...new Set([...items.flatMap(e=>e.start===undefined?[e.time]:[e.time,e.start,e.end??e.time]),...ticks.map(t=>t.time)])].sort((a,b)=>b-a);
  const ys=new Map<number,number>(), positions=new Map<string,{x:number;y:number;side:number}>();
  const bottoms=[0,0];let y=35,previous=knots[0]??0,lastTop=0;
  for(const time of knots){
@@ -42,6 +50,9 @@ export function arrange(items:Measured[],width:number){
    positions.set(e.id,{x:desktop?(side?cardWidth+gutter:0):gutter,y:top,side});
    bottoms[side]=top+e.height+20;lastTop=top;
   }
+  // Same-date cards can stack below their shared anchor. Reserve every header
+  // before placing an older knot, including knots with no attached card.
+  y=Math.max(y,lastTop+22);
  }
- return {positions,ys,height:Math.max(y+65,...bottoms),cardWidth,desktop,gutter};
+ return {positions,ys,ticks,height:Math.max(y+65,...bottoms),cardWidth,desktop,gutter};
 }

@@ -35,20 +35,22 @@ function layout(){
  const measured=visible.map(c=>{const e=data.get(c.id)!;const range=e.start?durationBounds({...e,start:e.start},today):undefined;return {id:c.id,time:e.ongoing?range!.end:timeKey(e.date??e.end!),start:range?.start,end:range?.end,height:c.offsetHeight};});
  const result=arrange(measured,width);host.classList.add('enhanced');host.style.height=`${result.height}px`;
  const axis=desktop?width/2:14;let drawing=line(axis,0,axis,result.height,'spine');
- const lensRails:LensRail[]=[];const lanes:number[]=[];let lastYear='';
+ // Year labels belong to real January boundaries, never to whichever card
+ // happens to be the first record with an ending year.
+ for(const tick of result.ticks){const y=result.ys.get(tick.time)!;drawing+=`<g class="year-tick" data-date="${tick.date}"><line class="year-mark" x1="${axis-4}" y1="${y}" x2="${axis+4}" y2="${y}"/><text class="axis-year" x="${axis+8}" y="${y-5}">${tick.date.slice(0,4)}.01</text></g>`;}
+ const lensRails:LensRail[]=[];const lanes:number[]=[];
  for(const e of measured){
   const c=cards.find(c=>c.id===e.id)!,p=result.positions.get(e.id)!,anchor=result.ys.get(e.time)!;
   c.style.left=`${p.x}px`;c.style.top=`${p.y}px`;
-  const year=data.get(e.id)!.ongoing?t('Now'):String((data.get(e.id)!.date??data.get(e.id)!.end??'').slice(0,4));if(year!==lastYear){drawing+=`<text class="axis-year" x="${axis+8}" y="${anchor-12}">${year}</text>`;lastYear=year;}
   const edge=desktop&&p.side===0?p.x+result.cardWidth:p.x;
-  drawing+=`<path class="connector" d="M ${axis} ${anchor} L ${edge+(edge<axis?12:-12)} ${anchor} L ${edge} ${p.y+22}"/>`;
+  drawing+=`<path class="connector" data-node-id="${c.id}" d="M ${axis} ${anchor} L ${edge+(edge<axis?12:-12)} ${anchor} L ${edge} ${p.y+22}"/>`;
   if(e.start!==undefined){
    const railAnchor=result.ys.get(e.end??e.time)!;const end=result.ys.get(e.start)!;let lane=lanes.findIndex(bottom=>bottom<=railAnchor);if(lane<0)lane=lanes.length;lanes[lane]=end;
    const x=desktop?axis-18-lane*12:axis+14+lane*7;
    lensRails.push({id:c.id,x,top:railAnchor,bottom:end,color:railColor(c.id),label:data.get(c.id)!.organization,period:period(data.get(c.id)!,lang)});
    drawing+=`<g data-rail-id="${c.id}" style="--rail-color:${railColor(c.id)}">`+line(x,railAnchor,x,end,`duration-rail rail-${c.dataset.primary}`)+line(x-3,railAnchor,x+3,railAnchor,'cap')+line(x-3,end,x+3,end,'cap')+`<circle class="track-stop" cx="${x}" cy="${railAnchor}" r="9"/><text class="track-code" x="${x}" y="${railAnchor+3}">${railLabel(c.id)}</text></g>`;
-   drawing+=`<rect class="range-node" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
-  }else drawing+=`<circle class="event-node" cx="${axis}" cy="${anchor}" r="4"/>`;
+   drawing+=`<rect class="range-node" data-node-id="${c.id}" x="${axis-4}" y="${anchor-4}" width="8" height="8" rx="2"/>`;
+  }else drawing+=`<circle class="event-node" data-node-id="${c.id}" cx="${axis}" cy="${anchor}" r="4"/>`;
   const old=before.get(c.id),next=c.getBoundingClientRect();
   if(!reduced.matches)c.animate(old?[{transform:`translate(${old.left-next.left}px,${old.top-next.top}px)`},{transform:'none'}]:[{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'});
  }

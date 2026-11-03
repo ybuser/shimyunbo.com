@@ -64,3 +64,27 @@ test('2022 inclusive end boundary cannot promote the IBK card into 2023',()=>{
   assert.ok(r.ys.get(range.end)!<r.ys.get(timeKey('2022-12'))!);
  }
 });
+
+test('stacked same-month cards reserve headers before older boundary-only knots',()=>{
+ for(const width of [320,390,768,1440]){
+  const same=timeKey('2014-12'),older=timeKey('2013-01-01');
+  const items=['a','b','c'].map(id=>({id,time:same,start:older,end:timeKey('2015-01-01'),height:240}));
+  const r=arrange(items,width);
+  assert.ok(r.ys.get(older)!>Math.max(...[...r.positions.values()].map(p=>p.y+22)));
+  assert.equal(new Set(items.map(e=>r.ys.get(e.time))).size,1,'same month retains one shared anchor');
+ }
+});
+test('January labels and inclusive school endpoints share the real date map',()=>{
+ const items=entries.filter(e=>['dubai','tashkent','move-tashkent','move-ulsan'].includes(e.id)).map(e=>{
+  const range=e.start?durationBounds({...e,start:e.start}):undefined;
+  return {id:e.id,time:timeKey(e.date??e.end!),start:range?.start,end:range?.end,height:180};
+ });
+ for(const width of [320,390,768,1440]){
+  const r=arrange(items,width);
+  for(const date of ['2010-01-01','2013-01-01','2015-01-01'])assert.ok(r.ticks.some(t=>t.date===date));
+  const dubai=items.find(e=>e.id==='dubai')!,tashkent=items.find(e=>e.id==='tashkent')!;
+  assert.equal(dubai.end,tashkent.start);
+  assert.equal(r.ys.get(dubai.end!),r.ys.get(timeKey('2013-01-01')));
+  assert.ok(r.ys.get(timeKey('2012-12'))!<r.ys.get(timeKey('2012-01-01'))!);
+ }
+});
