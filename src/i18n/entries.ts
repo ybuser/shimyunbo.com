@@ -25,7 +25,7 @@ const ko:Record<string,[string,string,string,string[]]>={
 'hackathon-2022':['최우수상','한국컴퓨터교육학회','SW중심대학 캡스톤 디자인 및 AI 해커톤 경진대회.',['SW중심대학 캡스톤 디자인 및 AI 해커톤 경진대회 최우수상.']],
 'ai-competition-2022':['장려상','SW중심대학협의회','SW중심대학 공동 AI 경진대회.',['SW중심대학 공동 AI 경진대회 장려상.']],
 'craftsman':['프로그래밍기능사','한국산업인력공단','프로그래밍 국가기술자격 · 구 정보처리기능사.',['현재 자격 명칭은 프로그래밍기능사(구 정보처리기능사)입니다. 표시된 날짜는 최초 취득일입니다.']],
-'tashkent':['','타슈켄트 국제학교 (Tashkent International School)','국제학교 재학.',['Director’s Award 3회, Principal’s Award 1회 수상. 개별 수상 시점은 명시되지 않았습니다.']],
+'tashkent':['','타슈켄트 국제학교 (Tashkent International School)','국제학교 재학.',['Director’s Honor Roll 3회, Principal’s Honor Roll 1회 선정. 개별 선정 시점은 명시되지 않았습니다.']],
 'dubai':['','American School of Dubai','국제학교 재학.',['American School of Dubai에 재학했습니다.']],
 'hcmc':['','International School of Ho Chi Minh City','국제학교 재학.',['International School of Ho Chi Minh City에 재학했습니다.']],
  'ta-fall':['조교 · 시스템프로그래밍실습','성균관대학교','담당교수: 이준원.',['담당교수: 이준원.']],
