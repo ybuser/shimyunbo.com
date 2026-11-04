@@ -5,7 +5,7 @@ const colors:Readonly<Record<string,string>>={
  'snu-hci':'#f493be',ibk:'#d4dd72',skku:'#8e9dff',pohang:'#e3c568',
  'ict-volunteer':'#91c9d0',metaverse:'#c7a2c9','triple-s':'#b6ccaa',
  'mentor-2022':'#e0aca1','mentor-2021':'#b6bbd3',hit:'#c9c5a1',
- likelion:'#91bfc0',tashkent:'#d0acb2',dubai:'#b3c4dc',hcmc:'#d6c19f','jade-apple-studio':'#e4a2ef','computing-student-council':'#8bd7ca','makers-secretariat':'#e9b88c',
+ likelion:'#91bfc0',tashkent:'#d0acb2',dubai:'#b3c4dc',hcmc:'#d6c19f','jade-apple-studio':'#e4a2ef','computing-student-council':'#8bd7ca','makers-secretariat':'#e9b88c',fancake:'#a8c9f2',
 };
 export function railColor(id:string):string{
  if(colors[id])return colors[id];

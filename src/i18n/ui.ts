@@ -2,6 +2,7 @@ export type Language='en'|'ko';
 export const language=(path:string):Language=>/^\/ko(?:\/|$)/.test(path)?'ko':'en';
 export function localizedPath(path:string,lang:Language){const bare=path.replace(/^\/ko(?=\/|$)/,'')||'/';if(['/404/','/404.html'].includes(bare))return lang==='ko'?'/ko/404/':'/404.html';return lang==='ko'?'/ko'+(bare.startsWith('/')?bare:'/'+bare):bare;}
 export const korean:Record<string,string>={
+'Startup project':'창업 프로젝트','Related blog post':'관련 블로그 글',
 'Yunbo Shim':'심윤보','Research, software, and a continuing record of work by Yunbo Shim.':'심윤보의 연구, 소프트웨어 개발, 그리고 경험의 기록.',
 'About':'소개','Research':'연구','CV':'이력','Timeline':'타임라인','Skip to content':'본문으로 건너뛰기','Yunbo Shim home':'심윤보 홈','Main navigation':'주 메뉴','Research. Build. Keep learning.':'연구하고, 만들고, 계속 배웁니다.',
 "Hello, I'm":'안녕하세요,','AI Development Specialist Soldier · Republic of Korea Navy':'대한민국 해군 · AI개발특기병','B.S. Computer Science & Engineering · Sungkyunkwan University':'성균관대학교 소프트웨어학과 · 학사','Email':'이메일','Selected work':'주요 작업','01 / RESEARCH':'01 / 연구','How do models':'모델은 맥락을','make sense of context?':'어떻게 이해할까?','Manuscript · 2026':'원고 · 2026','02 / BUILDING':'02 / 개발','From an idea':'아이디어에서','to something people use.':'사람들이 쓰는 서비스까지.','Bannangco Co., Ltd. · CEO':'(주)반낭코 · 대표이사','MeetingGO, Friending & Splash':'미팅GO, 프렌딩, Splash','03 / VISUALIZATION':'03 / 시각화','Seeing high-dimensional data differently.':'고차원 데이터를 새롭게 바라보기.',
