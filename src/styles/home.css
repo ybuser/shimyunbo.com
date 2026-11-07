@@ -1,0 +1,77 @@
+/* A light, personal notebook. Interests are reading material, never navigation. */
+.home-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center;padding:76px 0 64px}
+.home-intro h1{font:700 clamp(48px,5.5vw,72px)/1.12 Arial,sans-serif;letter-spacing:-3px;margin:22px 0 28px}
+.home-intro h1 span{color:var(--accent)}
+.home-current{font-size:14px;line-height:1.9;color:var(--muted);border-left:2px solid #6b8b78;padding-left:16px}
+.home-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:27px}
+.home-links a{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:99px;font-size:12px;text-decoration:none;background:#fff8}
+.home-links a:hover{border-color:var(--accent)}
+.notebook-caption{font-size:11px;letter-spacing:.07em;color:var(--muted);margin:0 0 15px 18px}
+.interest-notes{position:relative}
+.interest-note{position:relative;padding:17px 22px 18px;border:1px solid #cdd9d4;border-radius:3px 12px 12px 3px;background:#edf2ee}
+.interest-note+.interest-note{margin-top:10px}
+.interest-2{margin-left:24px;background:#f2f0e8;border-color:#ddd8c8}
+.interest-3{margin-right:18px;background:#edf1f5;border-color:#d4dce5}
+.interest-label{font:10px/1.6 monospace;letter-spacing:1.5px;color:#4b6458}
+.interest-2 .interest-label{color:#736343}.interest-3 .interest-label{color:#51657c}
+.interest-label span{font-weight:700}
+.interest-note h2{font:600 20px/1.35 Arial,sans-serif;letter-spacing:-.5px;margin:7px 0}
+.interest-note p{font-size:12px;line-height:1.65;color:var(--muted);margin:0;max-width:34em}
+.curiosity{padding-top:32px;border-top:1px solid var(--line);margin-bottom:45px}
+.curiosity-heading{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:28px}
+.curiosity-heading h2{font:600 clamp(27px,3.6vw,38px)/1.25 Arial,sans-serif;letter-spacing:-1.2px;margin:11px 0 0}
+.curiosity-heading>p{font-size:13px;color:var(--muted);max-width:235px;margin:0 0 3px}
+.playgrounds{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:stretch}
+.tech-playground,.sport-playground{border-radius:18px;overflow:hidden;padding:25px 26px 27px;position:relative;border:1px solid #d5e0de;background:#ecf3f1}
+.sport-playground{background:#f5f2e9;border-color:#e3ddcc}
+.playground-label{display:flex;justify-content:space-between;gap:10px;font:10px/1.6 monospace;letter-spacing:1.5px;color:#4c6862}
+.playground-label>span{font-size:17px;line-height:1;color:#788f85}
+.sport-playground>.playground-label{color:#796c4e}
+.sketch-frame{width:100%;max-width:480px;margin:10px auto 0}
+.tech-playground .sketch-frame{margin-top:42px}
+.hobby-sketch{display:block;width:100%;height:auto;color:#345d58;overflow:visible}
+.hobby-sketch .ink{stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hobby-sketch .wash{fill:#dce9df;opacity:.6}.hobby-sketch .paper-fill{fill:#fbfcf4}.hobby-sketch .sail-fill{fill:#c2d6c9}.hobby-sketch .sun-fill{fill:#ddc789;opacity:.8}
+.sketch-sailing{color:#426779}.sketch-sailing .wash{fill:#dbe8e8}.sketch-sailing .sail-fill{fill:#e3c887}
+.sketch-running{color:#7b6148}.sketch-running .wash{fill:#eadfc5}.sketch-running .sail-fill{fill:#b8c7a6}
+.sketch-climbing{color:#755f54}.sketch-climbing .wash{fill:#e3dbcf}.sketch-climbing .sail-fill{fill:#d1ae8d}
+.playground-copy h3{font:600 25px/1.4 Arial,sans-serif;letter-spacing:-.8px;margin:12px 0 10px}
+.playground-copy>p{font-size:14px;line-height:1.8;color:var(--muted);margin:0;max-width:35em}
+.handwritten-note{font:italic 15px/1.7 Georgia,serif;color:#526c5e;margin-top:24px;transform:rotate(-2deg);transform-origin:left center}
+html[lang=ko] .handwritten-note{font-family:Arial,sans-serif;font-size:13px}
+.sport-picker{display:flex;gap:5px;margin:17px 0 0;padding:4px;background:#e9e5d9;border-radius:99px;width:fit-content;max-width:100%}
+.sport-picker button{border:0;min-height:44px;padding:8px 17px;border-radius:99px;background:transparent;color:#67614f;font-size:12px;white-space:nowrap}
+.sport-picker button[aria-selected=true]{background:#fcfcf6;box-shadow:0 1px 4px #29352f18;color:#294f46;font-weight:700}
+.sport-picker button:hover{color:#294f46}
+.sport-picker button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sport-pages{display:grid}
+.sport-page{min-width:0}.sport-page+.sport-page{margin-top:36px;border-top:1px dashed #c7c5b4;padding-top:20px}
+.is-interactive .sport-page{grid-area:1/1;margin:0;border:0;padding:0}
+.is-interactive .sport-fallback-label{display:none}
+.sport-fallback-label{font:11px monospace;letter-spacing:1px;color:#796c4e}
+.sport-page:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:8px}
+.sailing-record{border-top:1px dashed #cbc7b5;margin-top:20px;padding-top:14px;display:flex;flex-direction:column;gap:5px;color:#5b614e;font-size:11px;line-height:1.65}
+.sailing-record strong{font-size:13px;color:#374f45;font-weight:600}
+.sailing-record>span{font-size:11px}.record-separator{padding:0 4px;color:#a39c85}
+.sport-hint{margin:18px 0 0;font-size:10px;color:#736d5c}
+/* Motion is brief, decorative, and never required to understand the story. */
+@media(prefers-reduced-motion:no-preference){
+  .code-stroke{animation:sketch-ink 1.5s ease-out both}
+  .spark{animation:spark-on 1.5s ease-in-out 2}
+  .pixel-points{animation:spark-on 1.3s ease-in-out 2}
+  .sport-page:not([hidden]) .boat{transform-origin:240px 220px;animation:boat-rock 2s ease-in-out 2}
+  .sport-page:not([hidden]) .waves{animation:wave-drift 2s ease-in-out 2}
+  .sport-page:not([hidden]) .runner{transform-origin:245px 185px;animation:runner-step 1s ease-in-out 3}
+  .sport-page:not([hidden]) .climber{transform-origin:230px 74px;animation:climber-shift 1.8s ease-in-out 2}
+}
+@keyframes sketch-ink{from{opacity:.15;stroke-dasharray:100;stroke-dashoffset:100}to{opacity:1;stroke-dasharray:100;stroke-dashoffset:0}}
+@keyframes spark-on{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes boat-rock{0%,100%{transform:rotate(0)}50%{transform:rotate(-2deg) translateY(-3px)}}
+@keyframes wave-drift{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+@keyframes runner-step{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px) rotate(-1deg)}}
+@keyframes climber-shift{0%,100%{transform:rotate(0)}50%{transform:rotate(-2deg)}}
+@media(min-width:761px){.is-interactive .sport-pages{min-height:420px}}
+@media(max-width:1000px){.home-hero{gap:38px}.home-intro h1{font-size:58px}.playground-copy h3{font-size:22px}.tech-playground,.sport-playground{padding:22px}.sport-picker button{padding-inline:14px}.is-interactive .sport-pages{min-height:395px}}
+@media(max-width:760px){.home-hero{grid-template-columns:1fr;padding:48px 0 38px;gap:36px}.home-intro h1{font-size:clamp(48px,9vw,68px)}.interest-notes{max-width:560px;width:100%;justify-self:end}.interest-note{padding:16px 20px}.curiosity-heading{align-items:start;flex-direction:column;gap:12px}.curiosity-heading>p{max-width:none}.playgrounds{grid-template-columns:1fr;gap:20px}.tech-playground .sketch-frame{margin-top:14px;max-width:390px}.sport-playground .sketch-frame{max-width:420px}.tech-playground,.sport-playground{padding:24px}.playground-copy h3{font-size:25px}.is-interactive .sport-pages{min-height:435px}.tech-playground .playground-copy>p{max-width:38em}.curiosity{padding-top:28px}}
+@media(max-width:400px){.home-intro h1{font-size:48px;letter-spacing:-2.5px}.home-current{font-size:12px;padding-left:12px}.home-links{gap:6px}.home-links a{font-size:11px;padding:8px 10px}.interest-note{padding:15px 16px}.interest-note h2{font-size:18px}.interest-2{margin-left:14px}.interest-3{margin-right:10px}.curiosity-heading h2{font-size:27px;letter-spacing:-1px}.tech-playground,.sport-playground{padding:20px 18px}.playground-copy h3{font-size:22px}.playground-copy>p{font-size:13px}.sport-picker{width:100%;gap:2px}.sport-picker button{padding:8px 10px;flex:1}.is-interactive .sport-pages{min-height:410px}.sailing-record>span{font-size:10px}.record-separator{padding:0 1px}}
+@media print{.home-hero{padding:20px 0}.sport-picker,.sport-hint{display:none!important}.sport-page[hidden]{display:block!important}.is-interactive .sport-page{grid-area:auto}.playgrounds{display:block}.tech-playground,.sport-playground{break-inside:avoid;margin-top:20px}.hobby-sketch{max-height:170px}}

@@ -67,7 +67,9 @@ with sync_playwright() as p:
   page.evaluate('window.scrollTo(0,1500)');assert page.locator('#filter-toggle').bounding_box()['y']<950
   page.evaluate('window.scrollTo(0,0)');page.screenshot(path=f'/tmp/shimyunbo-revised-timeline-{width}.png')
   page.goto('http://127.0.0.1:4321/');assert page.locator('.profile-art').count()==0
-  assert page.locator('.work-notebook a').count()==3
+  assert page.locator('.interest-note').count()==3
+  assert page.locator('.interest-notes a').count()==0
+  assert page.locator('main a[href*="timeline"]').count()==0
   assert page.get_by_text('I explore ideas through research and build them into software.',exact=True).count()==0
   assert page.locator('a[href="https://www.linkedin.com/in/yunbo-shim"]').count()==2
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

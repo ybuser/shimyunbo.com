@@ -1,0 +1,61 @@
+---
+interface Props { kind: 'tech' | 'sailing' | 'running' | 'climbing'; }
+const {kind}=Astro.props;
+---
+<svg class:list={['hobby-sketch', `sketch-${kind}`]} viewBox="0 0 480 280" fill="none" aria-hidden="true" focusable="false">
+  {kind==='tech' && <>
+    <path class="wash" d="M68 104C59 52 154 26 239 42S406 63 407 143 304 258 209 239 80 197 68 104Z"/>
+    <g class="ink">
+      <path d="m111 196 11-132q1-8 11-8l217 9q10 0 9 10l-3 129M128 191l9-120 206 7-3 116-212-3Z"/>
+      <path class="paper-fill" d="m110 194 246 7 35 27q4 5-5 7l-299-8q-10-1-4-7l27-26Z"/>
+      <path d="m136 206 197 5m-192 5 185 5m-110-17-7 13m32-12-2 13m27-12 4 13" opacity=".4"/>
+      <path class="code-stroke" d="m162 107-13 10 12 11m27-21 13 11-14 11m-12-26-6 31M150 151l49 2m-47 14 80 2m-14-54 66 2m-64 15 46 1"/>
+      <rect class="floating-window paper-fill" x="284" y="111" width="94" height="66" rx="6" transform="rotate(6 284 111)"/>
+      <path d="m290 131 87 9m-75 6 20 2m-20 12 41 4"/>
+      <circle cx="300" cy="123" r="1.5" fill="currentColor"/><circle cx="308" cy="124" r="1.5" fill="currentColor"/>
+      <path class="spark" d="m84 87-12-8m23-10-2-14m281 1 10-12m-1 31 15-1M64 162l-9 4m343 27 15 6"/>
+      <path d="m390 220 4-31 23 2-2 31m2-27q21 1 12 18l-13 2m-11-41q-5-7 2-13m-9 12q-5-7 0-12"/>
+      <path d="M61 240q173 7 361 3" opacity=".35"/>
+    </g>
+    <g class="pixel-points" fill="currentColor"><rect x="229" y="151" width="5" height="5"/><rect x="241" y="151" width="5" height="5"/><rect x="253" y="151" width="5" height="5"/></g>
+  </>}
+  {kind==='sailing' && <>
+    <path class="wash" d="M77 154C54 83 146 24 251 39s159 88 135 148-101 63-185 54S92 206 77 154Z"/>
+    <g class="ink boat">
+      <path d="m242 48 1 158M233 66l-79 119 79 3-1-122Z" class="sail-fill"/>
+      <path d="m252 87 65 100-65 1V87Z" class="paper-fill"/>
+      <path d="m157 185 75-4m21 5 59-4M241 50l28 8-27 9"/>
+      <path class="paper-fill" d="m137 201 198 4-25 26-131-1-42-29Z"/>
+      <path d="m149 212 175 4m-101-22 11 10m12-9-5 10"/>
+      <path d="m186 175 43-66" opacity=".3"/>
+    </g>
+    <g class="ink waves"><path d="M69 235q18-9 36 0t36 0m178 8q18-9 36 0t36 0M109 254q21-8 42 0t42 0m36-9q15-7 31 0t31 0"/></g>
+    <g class="ink wind"><path d="M66 94h47q17 0 17-10t-13-9M344 117h48q17 0 17-9t-12-8M75 108h24"/></g>
+    <circle cx="353" cy="62" r="15" class="sun-fill"/>
+  </>}
+  {kind==='running' && <>
+    <path class="wash" d="M76 118C75 66 134 28 224 39s184 49 181 112-90 113-176 95S75 200 76 118Z"/>
+    <g class="ink"><path d="M48 242q88-20 167 0t178-7m-294 24q75-10 135 3" opacity=".45"/><path d="m364 219 10-18 9 17m-9-15 1 34m-287-8 6-10 8 12"/><path class="speed-lines" d="m114 109 47 2m-62 17 53 2m-25 18 31 2"/></g>
+    <g class="ink runner">
+      <circle class="paper-fill" cx="271" cy="68" r="16"/>
+      <path class="sail-fill" d="m242 90 24 14-23 59-37-17 36-56Z"/>
+      <path d="m248 101-33 11-30-16m72 18 20 22 34-8m-73 29 38 30 37 41m-94-74-22 36-50 12m115-111-6 11" stroke-width="5"/>
+      <path class="paper-fill" d="m306 227 15-5 15 14-34 1 4-10Zm-156-27 5 13-22 12-4-28 21 3Z"/>
+      <path d="m266 55 17 7" stroke-width="3"/>
+    </g>
+    <path class="ink" d="M335 82q15-13 28 0m-21-12q8-12 17-5" opacity=".5"/>
+  </>}
+  {kind==='climbing' && <>
+    <path class="wash" d="M100 214C57 177 83 90 143 51s150-13 209 47 71 119-5 144-195 16-247-28Z"/>
+    <g class="ink"><path d="m155 257 11-52-18-55 43-57-6-54 137-6 7 72 39 57-13 95" opacity=".4"/><path d="m191 93 56 24m83-12-41 43m-124 57 39-15m87 20 65 12" opacity=".25"/></g>
+    <g class="ink holds"><path class="sail-fill" d="m221 70 13-9 8 12-13 5-8-8Zm87 22 12-7 8 12-18 4-2-9Zm-129 67 16-8 9 10-17 7-8-9Zm91 42 17-7 7 11-19 4-5-8Zm-55 30 15-6 7 11-17 5-5-10Z"/></g>
+    <g class="ink climber">
+      <circle class="paper-fill" cx="258" cy="117" r="14"/>
+      <path class="sail-fill" d="m242 134 27-1 9 47-37 2 1-48Z"/>
+      <path d="m247 139-29-28 12-37m33 66 26-19 24-24m-66 83-25 23 4 28m45-49 20 5-11 14" stroke-width="5"/>
+      <path d="m218 233 13 2m41-31 14-1" stroke-width="6"/>
+      <path d="m242 172 33-2"/>
+    </g>
+    <path class="ink route" d="m145 226-16-41 13-48-1-39 22-38" stroke-dasharray="3 8" opacity=".5"/>
+  </>}
+</svg>

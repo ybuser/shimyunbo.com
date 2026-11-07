@@ -1,6 +1,6 @@
 # shimyunbo.com
 
-Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and distinct colored experience ribbons. The About hero combines a typographic introduction with linked, asymmetric research and product notes rather than a portrait placeholder. The Timeline navigation item and CTA keep that appearance across the site.
+Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and distinct colored experience ribbons. The About hero combines a typographic introduction with three non-navigating interest notes: research, building, and visualization. A light sketchbook below introduces trying new computer technologies and sailing, running, and climbing. The Timeline remains available in the header; the old homepage experience section and timeline CTA are removed.
 
 ## Local development
 
@@ -55,3 +55,11 @@ Content terminology verified November 2026: the owner confirmed AI개발특기�
 The Personal / Life events category contains only the owner-authorized birth, city-level relocations and enlistment points. Exact days are preserved only where supplied. The confirmed 18 August 2025 enlistment date now anchors the single Navy duration; this more precise correction supersedes its former month-only start, so the real gap after July is retained. Month-only duration end boundaries remain inclusive. School dates use the confirmed January–December endpoints. Award organizers appear only in expanded details.
 
 Timeline date-axis regression: `python3 scripts/check-axis.py` compares rendered SVG point nodes, duration endpoints and January ticks against source date order in both languages at 320/390/768/1440px, across five filter sets, expansion and resize. Year labels explicitly mark January (`YYYY.01`) on the same compressed date map used by rails. Cards sharing a month retain a shared node; all their headers reserve space before older date knots are placed, so a stacked tied card cannot push past an earlier boundary. Dubai's inclusive December 2012 endpoint and Tashkent's January 2013 start share the exact same January tick. Labels retain the supplied date precision; this layout does not infer the day of month-only events.
+
+## Homepage sketchbook and disclosure typography
+
+`src/i18n/home.ts` pairs the homepage copy in English and Korean. `HobbySketch.astro` contains lightweight, decorative SVG drawings. Sport tabs stay on the homepage and support click, Left/Right, Home/End, and Tab navigation. Without JavaScript all three sport stories remain readable. Decorative motion finishes within four seconds and is disabled by reduced-motion preferences. The sailing record lists 2017 and 2018 and Laser 2000 / Laser 4.7 together, without inventing a year-to-class mapping. Only the owner's explicitly supplied hobby and sailing facts were added.
+
+Timeline disclosures use a single typography contract in `timeline.astro`: Arial / Noto Sans KR, 14px body and links with 1.7 line height; 16px, weight-600 detail headings with 1.5 line height. Entry category, compact layout, language, and viewport do not change that scale. Redundant links back to the same entry are removed; research pages, project sources, and meaningful cross-entry links remain.
+
+`python3 scripts/check-home.py` checks the bilingual homepage, narrow layouts, sport controls, no-JavaScript fallback, and reduced motion. `python3 scripts/check-timeline-details.py` checks disclosure typography and link targets. These browser scripts accept `BASE_URL` and need a supported Playwright/Chromium environment.
