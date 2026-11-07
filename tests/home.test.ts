@@ -38,6 +38,7 @@ test('sport notebook enhances readable HTML with accessible local tabs and brief
  const serverPanels=page.slice(page.indexOf('<div class="sport-pages">'),page.indexOf('</Layout>'));
  assert.doesNotMatch(serverPanels,/<article[^>]*hidden/);
  for(const key of ['ArrowRight','ArrowLeft','Home','End'])assert.ok(page.includes(key));
+ assert.match(page,/if\(event\.altKey\|\|event\.ctrlKey\|\|event\.metaKey\)return/);
  assert.match(page,/page\.setAttribute\('role','tabpanel'\)/);
  assert.match(page,/page\.tabIndex=0/);
  assert.match(style,/@media\(prefers-reduced-motion:no-preference\)/);
