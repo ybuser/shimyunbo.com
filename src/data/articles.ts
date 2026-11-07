@@ -24,14 +24,14 @@ export const articles: Article[] = [
     id: 'navy-ax-center-opening', number: '02', date: '2026-11-06', status: 'placeholder',
     copy: {
       en: {title: 'A demonstration at the Navy AX Center opening in Busan Centum City', category: 'Field notes', paragraphs: []},
-      ko: {title: '부산 센텀시티, 해군 AX 센터 개소식에서의 시연', category: '현장 기록', paragraphs: []},
+      ko: {title: '부산 센텀시티 해군 AX 센터 개소식 시연', category: '현장 기록', paragraphs: []},
     },
   },
   ...(['03', '04', '05'] as const).map(number => ({
     id: `placeholder-${number}`, number, date: null, status: 'placeholder' as const,
     copy: {
       en: {title: `An unwritten page · ${number}`, category: 'Placeholder', paragraphs: []},
-      ko: {title: `아직 쓰지 않은 페이지 · ${number}`, category: '빈 포스트', paragraphs: []},
+      ko: {title: `아직 작성하지 않은 글 · ${number}`, category: '본문 준비 중', paragraphs: []},
     },
   })),
 ];

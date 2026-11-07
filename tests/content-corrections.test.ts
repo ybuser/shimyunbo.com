@@ -10,7 +10,8 @@ test('confirmed roles, company names and technical terms stay consistent across 
 test('credentials retain historical acquisition dates while using current official names and scoped grades',()=>{
  for(const lang of ['en','ko'] as const){const entries=localizedEntries(lang),c=entries.find(e=>e.id==='craftsman')!,o=entries.find(e=>e.id==='opic')!;
   assert.equal(c.date,'2017-12-27');assert.equal(c.title,lang==='ko'?'프로그래밍기능사':'Craftsman Programming');assert.match(c.details.join(' '),/정보처리기능사/);
-  assert.match(o.summary,lang==='ko'?/국내 OPIc 최고/:/highest OPIc grade reported in Korea/);
+  assert.equal(o.title,'OPIc');assert.equal(o.summary,lang==='ko'?'AL(최고 등급)':'AL (highest level)');
+  assert.equal(o.date,'2026-09-05');assert.equal(o.organization,'ACTFL');assert.match(o.details.join(' '),/Advanced Low/);assert.match(o.details.join(' '),lang==='ko'?/국내 OPIc 등급 체계/:/Korean OPIc reporting scale/);
   const training=entries.find(e=>e.id==='likelion')!;assert.match(training.organization,lang==='ko'?/멋쟁이사자처럼 · 카카오 그라운드X/:/LikeLion · Kakao GroundX/);
   for(const id of ['defense-ms-records-2026','civilian-impact-2026'])assert.match(entries.find(e=>e.id===id)!.organization,/국방M&S 세미나/);
  }

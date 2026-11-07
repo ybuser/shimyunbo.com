@@ -57,7 +57,7 @@ function layout(){
  lens.update(lensRails,desktop?(width-gutter)/2:0,gutter);
  svg.setAttribute('viewBox',`0 0 ${width} ${result.height}`);svg.innerHTML=drawing;emphasize(cards.find(c=>!c.hidden&&c.dataset.kind==='duration'&&c.contains(document.activeElement))?.id);
  for(const b of buttons)b.setAttribute('aria-pressed',String(b.dataset.category==='all'?!selected.size:selected.has(b.dataset.category as Category)));
- document.querySelector('#results')!.textContent=lang==='ko'?`${visible.length}개 이력 · ${selected.size?`${selected.size}개 카테고리 선택`:'전체 카테고리'}`:`${visible.length} entries · ${selected.size?`${selected.size} categories selected`:'All categories'}`;
+ document.querySelector('#results')!.textContent=lang==='ko'?`이력 ${visible.length}개 · ${selected.size?`${selected.size}개 카테고리 선택`:'전체 카테고리'}`:`${visible.length} entries · ${selected.size?`${selected.size} categories selected`:'All categories'}`;
  document.querySelector('#filter-count')!.textContent=selected.size?String(selected.size):t('All');
  (document.querySelector('#empty') as HTMLElement).hidden=!!visible.length;
 }
