@@ -1,0 +1,21 @@
+---
+import {latestArticles,articleDate,type Article} from '../data/articles';
+import {articleCopy} from '../i18n/articles';
+import {localizedPath,type Language} from '../i18n/ui';
+import Arrow from './Arrow.astro';
+interface Props {lang: Language; items?: Article[];}
+const {lang,items=latestArticles()}=Astro.props;
+const copy=articleCopy[lang];
+---
+<ol class="article-list" aria-label={copy.indexLabel}>
+  {items.map(article=><li class:list={['article-row',{'is-undated':!article.date}]} data-article-id={article.id}>
+    <a class="article-link" href={localizedPath(`/articles/${article.id}/`,lang)}>
+      <div class="article-date">{article.date?<time datetime={article.date}>{articleDate(article.date,lang)}</time>:<span>{copy.undated}</span>}</div>
+      <div class="article-info">
+        <div class="article-meta"><span class="article-number">{article.number}</span><span>{article.copy[lang].category}</span>{article.status==='placeholder'&&<span class="empty-badge">{copy.placeholder}</span>}</div>
+        <h3>{article.copy[lang].title}</h3>
+      </div>
+      <span class="article-arrow" aria-hidden="true"><Arrow/></span>
+    </a>
+  </li>)}
+</ol>

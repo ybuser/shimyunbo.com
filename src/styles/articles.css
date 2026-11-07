@@ -1,0 +1,44 @@
+/* Journal lists and reading pages share the portfolio's paper-and-ink palette. */
+.article-list{list-style:none;padding:0;margin:0}
+.article-row{border-bottom:1px solid var(--line)}
+.article-link{display:grid;grid-template-columns:140px 1fr 40px;gap:28px;align-items:center;padding:25px 8px 26px 0;text-decoration:none;border-radius:3px;transition:background .18s}
+.article-link:hover{color:var(--fg);background:#edf2ee}
+.article-link:focus-visible{outline-offset:4px}
+.article-date{font:12px/1.7 monospace;color:var(--muted);font-variant-numeric:tabular-nums}
+.article-meta{display:flex;gap:11px;align-items:center;flex-wrap:wrap;font-size:10px;line-height:1.7;letter-spacing:.03em;color:#576a60}
+.article-number{font-family:monospace;color:#6b756f;padding-right:9px;border-right:1px solid #bbc7c0}
+.empty-badge{border:1px solid #c9d2ca;border-radius:4px;padding:1px 7px;background:#f0f3ed;color:#59685c;font-size:10px;font-weight:400;letter-spacing:0;white-space:nowrap}
+.article-info{min-width:0}
+.article-info h3{font:500 23px/1.45 Georgia,serif;letter-spacing:-.45px;margin:8px 0 0;overflow-wrap:anywhere}
+.article-arrow{border:1px solid #ced8d0;border-radius:50%;height:38px;width:38px;display:grid;place-items:center;color:#486d57;transition:background .18s,color .18s}
+.article-arrow .arrow{width:14px;height:14px}
+.article-link:hover .article-arrow{background:#315a45;color:#fff;border-color:#315a45}
+.is-undated .article-info h3{font-size:20px;color:#626d65}
+.is-undated .article-link{padding-top:21px;padding-bottom:23px}
+.journal-article{max-width:780px;margin:auto;padding:36px 0 0}
+.journal-back{display:inline-flex;align-items:center;min-height:44px;font-size:13px;color:#4e6e5b;text-decoration:none}
+.article-heading{padding:35px 0 25px;border-bottom:1px solid #bdc9c1}
+.article-heading h1{font:normal clamp(34px,5vw,56px)/1.2 Georgia,serif;letter-spacing:-1.8px;margin:20px 0 25px;overflow-wrap:anywhere}
+.article-byline{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted)}
+.article-byline time{margin-left:6px}
+.empty-manuscript{position:relative;isolation:isolate;overflow:hidden;margin:34px 0;padding:42px 36px 32px;border:1px solid #dce2d8;background:#f1f3ed;min-height:290px}
+.manuscript-number{position:absolute;right:25px;top:10px;color:#e0e5db;font:100px/1.1 Georgia,serif;z-index:-1;user-select:none}
+.empty-manuscript .eyebrow{font-size:10px;color:#62735c}
+.empty-manuscript h2{font:normal 28px/1.4 Georgia,serif;letter-spacing:-.5px;max-width:90%;margin:13px 0 12px}
+.empty-manuscript p:not(.eyebrow){font-size:14px;color:var(--muted);margin:8px 0;max-width:520px}
+.empty-manuscript p.date-explanation{font-size:12px;max-width:430px}
+.manuscript-lines{display:grid;gap:14px;margin-top:32px;max-width:82%}
+.manuscript-lines span{height:1px;background:#d9e0d4}.manuscript-lines span:last-child{width:64%}
+.journal-return{display:inline-flex;gap:30px;align-items:center;min-height:44px;font-size:13px;text-decoration:none;border-bottom:1px solid #607c68;color:#405d49}
+.article-body{font-size:17px;line-height:1.9;max-width:700px;padding:20px 0;color:var(--muted)}
+.more-articles{margin:70px 0 0;border-top:2px solid #2e473e;padding-top:25px}
+.more-articles>h2{font:normal 27px/1.4 Georgia,serif;margin:0 0 10px}
+html[lang=ko] :is(.article-info h3,.article-heading h1,.empty-manuscript h2,.more-articles>h2){font-family:Arial,'Noto Sans KR',sans-serif;font-weight:500;word-break:keep-all;overflow-wrap:anywhere}
+html[lang=ko] .article-info h3{font-size:21px;letter-spacing:-.6px}
+html[lang=ko] .is-undated .article-info h3{font-size:18px}
+html[lang=ko] .article-heading h1{font-size:clamp(31px,4.5vw,48px);line-height:1.4}
+html[lang=ko] .empty-manuscript p{word-break:keep-all;overflow-wrap:break-word}
+@media(prefers-reduced-motion:reduce){.article-link,.article-arrow{transition:none}}
+@media(max-width:760px){.article-link{grid-template-columns:1fr 35px;gap:10px 15px;padding:22px 0}.article-date{grid-column:1/-1;font-size:11px}.article-info h3{font-size:22px}.article-arrow{height:34px;width:34px}.article-heading{padding-top:20px}.article-heading h1{letter-spacing:-1px}.empty-manuscript{padding:30px 24px}.empty-manuscript h2{font-size:25px}.more-articles{margin-top:50px}}
+@media(max-width:400px){.article-info h3{font-size:20px}.is-undated .article-info h3{font-size:18px}html[lang=ko] .article-info h3{font-size:19px}html[lang=ko] .is-undated .article-info h3{font-size:17px}.article-link{gap:10px}.article-meta{gap:8px}.article-heading h1{font-size:32px}.empty-manuscript{padding:26px 20px}.empty-manuscript h2{font-size:23px;max-width:100%}.article-byline{flex-direction:column}.empty-manuscript p:not(.eyebrow){font-size:13px}.journal-article{padding-top:22px}}
+@media print{.article-arrow,.journal-return,.more-articles{display:none}.empty-manuscript{break-inside:avoid}.article-link{break-inside:avoid}}

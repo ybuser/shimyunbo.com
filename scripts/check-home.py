@@ -13,7 +13,11 @@ with sync_playwright() as p:
             page.on('pageerror', lambda error: errors.append(str(error)))
             page.goto(BASE + route)
             assert page.locator('html').get_attribute('lang') == lang
-            assert page.locator('.interest-note').count() == 3
+            assert page.locator('.interest-note').count() == 0
+            assert page.locator('.home-hero .curiosity').count() == 1
+            assert page.locator('#latest .article-row').count() == 5
+            assert page.locator('#latest time').count() == 2
+            assert page.locator('#latest .empty-badge').count() == 5
             assert page.locator('.interest-notes a, main a[href*="timeline"]').count() == 0
             assert page.locator('.sport-picker').is_visible()
             initial = page.url

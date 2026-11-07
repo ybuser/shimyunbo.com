@@ -5,19 +5,18 @@ import {homeCopy,sportIds} from '../src/i18n/home.ts';
 const page=readFileSync(new URL('../src/pages/index.astro',import.meta.url),'utf8');
 const style=readFileSync(new URL('../src/styles/home.css',import.meta.url),'utf8');
 
-test('homepage introduces interests and hobbies in both languages without experience redirects',()=>{
+test('homepage puts hobbies beside the introduction and the article index below',()=>{
  for(const lang of ['en','ko'] as const){
   const copy=homeCopy[lang];
-  assert.equal(copy.interests.length,3);
-  assert.deepEqual(copy.interests.map(i=>i.number),['01','02','03']);
   for(const id of sportIds){assert.ok(copy[id].label);assert.ok(copy[id].title);assert.ok(copy[id].text);}
   assert.ok(copy.techTitle);assert.ok(copy.techText);
  }
  assert.deepEqual(Object.keys(homeCopy.en),Object.keys(homeCopy.ko));
  assert.doesNotMatch(page,/work-notebook|journey-cta|focus-cards|timeline\/|\/research\//);
- const notes=page.slice(page.indexOf('<aside'),page.indexOf('</aside>'));
- assert.doesNotMatch(notes,/<a\s|<button|href=/);
- assert.match(notes,/interest-note/);
+ assert.doesNotMatch(page,/interest-note|interestsLabel/);
+ assert.match(page,/<section class="home-hero"[\s\S]*<section class="curiosity"/);
+ assert.ok(page.indexOf('class="curiosity"')<page.indexOf('class="latest-updates"'));
+ assert.match(page,/<ArticleList lang=\{lang\}/);
 });
 
 test('sailing record preserves both years and classes without pairing or invented results',()=>{

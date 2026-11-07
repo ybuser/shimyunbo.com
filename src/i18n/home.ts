@@ -2,12 +2,6 @@ import type {Language} from './ui';
 /** Homepage copy is paired so both languages tell the same personal story. */
 export const homeCopy = {
   en: {
-    interestsLabel: 'A few things I think about',
-    interests: [
-      {number: '01', label: 'RESEARCH', title: 'How does intelligence work?', description: 'Models, context, and the way information becomes understanding.'},
-      {number: '02', label: 'BUILDING', title: 'What could I make with this?', description: 'New tools, small experiments, and ideas that become useful software.'},
-      {number: '03', label: 'VISUALIZATION', title: 'Could we see it differently?', description: 'Making complex data easier to explore, notice, and understand.'},
-    ],
     eyebrow: 'A LITTLE MORE ME', heading: 'Curiosity, in motion.',
     intro: 'At a keyboard, on the water, or somewhere up a wall.',
     techLabel: '01 / AT THE KEYBOARD', techTitle: 'New tech? Let me try.',
@@ -19,12 +13,6 @@ export const homeCopy = {
     climbing: {label: 'Climbing', title: 'A problem you can climb.', text: 'Finding the next hold and trying a different move.', note: 'Look up. Try again.'},
   },
   ko: {
-    interestsLabel: '이런 것들이 궁금해요',
-    interests: [
-      {number: '01', label: '연구', title: '지능은 어떻게 작동할까?', description: '모델과 맥락, 그리고 정보가 이해로 이어지는 과정.'},
-      {number: '02', label: '개발', title: '이걸로 뭘 만들 수 있을까?', description: '새로운 도구로 실험하고, 아이디어를 쓸모 있는 소프트웨어로 만들기.'},
-      {number: '03', label: '시각화', title: '다르게 보면 어떨까?', description: '복잡한 데이터 속 관계와 패턴을 눈으로 탐색하고 이해하기.'},
-    ],
     eyebrow: '조금 더 가벼운 자기소개', heading: '호기심은 움직이는 중.',
     intro: '키보드 앞에서, 물 위에서, 가끔은 벽 위에서.',
     techLabel: '01 / 키보드 앞에서', techTitle: '새로운 기술? 일단 써보기.',

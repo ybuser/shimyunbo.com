@@ -5,6 +5,8 @@ import Layout from '../layouts/Layout.astro';
 import Arrow from '../components/Arrow.astro';
 import HobbySketch from '../components/HobbySketch.astro';
 import '../styles/home.css';
+import ArticleList from '../components/ArticleList.astro';
+import {articleCopy} from '../i18n/articles';
 const lang=language(Astro.url.pathname),t=(s:string)=>translate(s,lang),url=(s:string)=>localizedPath(s,lang);
 const copy=homeCopy[lang];
 ---
@@ -21,14 +23,6 @@ const copy=homeCopy[lang];
         <a href={url('/cv/')}>{t('CV')} <Arrow/></a>
       </div>
     </div>
-    <aside class="interest-notes" aria-label={copy.interestsLabel}>
-      <div class="notebook-caption">{copy.interestsLabel}</div>
-      {copy.interests.map((interest,index)=><article class:list={['interest-note',`interest-${index+1}`]}>
-        <div class="interest-label"><span>{interest.number}</span> / {interest.label}</div>
-        <h2>{interest.title}</h2><p>{interest.description}</p>
-      </article>)}
-    </aside>
-  </section>
   <section class="curiosity" aria-labelledby="curiosity-title">
     <div class="curiosity-heading">
       <div><div class="eyebrow">{copy.eyebrow}</div><h2 id="curiosity-title">{copy.heading}</h2></div>
@@ -58,6 +52,16 @@ const copy=homeCopy[lang];
         <p class="sport-hint" hidden>{copy.sportHint}</p>
       </div>
     </div>
+  </section>
+  </section>
+  <section class="latest-updates" id="latest" aria-labelledby="latest-title">
+    <header class="journal-heading">
+      <div><div class="eyebrow">{articleCopy[lang].eyebrow}</div><h2 id="latest-title">{articleCopy[lang].heading}<span aria-hidden="true">.</span></h2></div>
+      <p>{articleCopy[lang].intro}</p>
+    </header>
+    <div class="journal-index"><span>{articleCopy[lang].indexLabel}</span><span>{articleCopy[lang].orderLabel}</span></div>
+    <ArticleList lang={lang}/>
+    <p class="journal-footnote">{articleCopy[lang].placeholderNote}</p>
   </section>
 </Layout>
 <script>

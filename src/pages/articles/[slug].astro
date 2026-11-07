@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ArticleList from '../../components/ArticleList.astro';
+import {articles,latestArticles,articleDate,type Article} from '../../data/articles';
+import {articleCopy} from '../../i18n/articles';
+import {language,translate,localizedPath} from '../../i18n/ui';
+import '../../styles/articles.css';
+export function getStaticPaths(){return articles.map(article=>({params:{slug:article.id},props:{article}}));}
+interface Props {article: Article;}
+const {article}=Astro.props;
+const lang=language(Astro.url.pathname),copy=articleCopy[lang],content=article.copy[lang];
+const empty=article.status==='placeholder';
+---
+<Layout title={`${content.title} · ${translate('Yunbo Shim',lang)}`} description={empty?copy.emptyText:content.paragraphs[0]} noindex={empty}>
+  <article class="journal-article">
+    <a class="journal-back" href={localizedPath('/#latest',lang)}>{copy.back}</a>
+    <header class="article-heading">
+      <div class="article-meta"><span>{copy.article} {article.number}</span><span>{content.category}</span>{empty&&<span class="empty-badge">{copy.placeholder}</span>}</div>
+      <h1>{content.title}</h1>
+      <div class="article-byline"><span>{translate('Yunbo Shim',lang)}</span><span>{article.date?<>{copy.recordDate} <time datetime={article.date}>{articleDate(article.date,lang)}</time></>:copy.undated}</span></div>
+    </header>
+    {empty?<section class="empty-manuscript" aria-labelledby="empty-title">
+      <span class="manuscript-number" aria-hidden="true">{article.number}</span>
+      <div><p class="eyebrow">{copy.placeholder}</p><h2 id="empty-title">{copy.emptyTitle}</h2><p>{copy.emptyText}</p><p class="date-explanation">{article.date?copy.dateNote:copy.undatedNote}</p></div>
+      <div class="manuscript-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>:<div class="article-body">{content.paragraphs.map(paragraph=><p>{paragraph}</p>)}</div>}
+    <a class="journal-return" href={localizedPath('/#latest',lang)}>{copy.returnHome} <span aria-hidden="true">↗</span></a>
+  </article>
+  <section class="more-articles" aria-labelledby="more-title"><h2 id="more-title">{copy.more}</h2><ArticleList lang={lang} items={latestArticles().filter(item=>item.id!==article.id).slice(0,2)}/></section>
+</Layout>

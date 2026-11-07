@@ -1,6 +1,6 @@
 # shimyunbo.com
 
-Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and distinct colored experience ribbons. The About hero combines a typographic introduction with three non-navigating interest notes: research, building, and visualization. A light sketchbook below introduces trying new computer technologies and sailing, running, and climbing. The Timeline remains available in the header; the old homepage experience section and timeline CTA are removed.
+Yunbo Shim’s static research website. About, Research, and CV use a light personal profile design; Timeline uses charcoal and distinct colored experience ribbons. The About hero pairs the introduction with a compact illustrated hobby sketchbook. Below it, an editorial journal lists the latest updates with dates, article numbers, and clear empty-post labels. The Timeline remains available in the header.
 
 ## Local development
 
@@ -63,3 +63,10 @@ Timeline date-axis regression: `python3 scripts/check-axis.py` compares rendered
 Timeline disclosures use a single typography contract in `timeline.astro`: Arial / Noto Sans KR, 14px body and links with 1.7 line height; 16px, weight-600 detail headings with 1.5 line height. Entry category, compact layout, language, and viewport do not change that scale. Redundant links back to the same entry are removed; research pages, project sources, and meaningful cross-entry links remain.
 
 `python3 scripts/check-home.py` checks the bilingual homepage, narrow layouts, sport controls, no-JavaScript fallback, and reduced motion. `python3 scripts/check-timeline-details.py` checks disclosure typography and link targets. These browser scripts accept `BASE_URL` and need a supported Playwright/Chromium environment.
+
+
+## Journal articles
+
+`src/data/articles.ts` contains bilingual article titles, stable URL IDs, sequence numbers, optional record dates, status, and paragraph arrays. Dated entries sort newest first; undated slots follow in number order. The five initial entries are empty placeholders: the site launch is dated 5 November 2026, the Navy AX Center opening demonstration in Busan Centum City is dated 6 November 2026, and slots 03–05 have no topic or date. No article body, publication claim, or additional event is invented. Placeholder pages use `noindex, follow` and explicitly explain their unfinished state.
+
+Both `/articles/[id]/` and `/ko/articles/[id]/` are statically generated. To write a real article, fill the paired paragraph arrays and change its status to `published`, retaining the stable ID. Supply a date only when confirmed. `src/i18n/articles.ts` contains shared journal interface copy; `ArticleList.astro` renders both homepage and related-page lists. Run `python3 scripts/check-articles.py` with `BASE_URL` set to the preview, in addition to the existing homepage and bilingual checks.
