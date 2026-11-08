@@ -17,7 +17,7 @@ with sync_playwright() as p:
             assert page.locator('.home-hero .curiosity').count() == 1
             assert page.locator('#latest .article-row').count() == 5
             assert page.locator('#latest time').count() == 2
-            assert page.locator('#latest .empty-badge').count() == 5
+            assert page.locator('#latest .empty-badge').count() == 3
             assert page.locator('.interest-notes a, main a[href*="timeline"]').count() == 0
             assert page.locator('.sport-picker').is_visible()
             initial = page.url

@@ -23,7 +23,15 @@ const empty=article.status==='placeholder';
       <span class="manuscript-number" aria-hidden="true">{article.number}</span>
       <div><p class="eyebrow">{copy.placeholder}</p><h2 id="empty-title">{copy.emptyTitle}</h2><p>{copy.emptyText}</p><p class="date-explanation">{article.date?copy.dateNote:copy.undatedNote}</p></div>
       <div class="manuscript-lines" aria-hidden="true"><span></span><span></span><span></span></div>
-    </section>:<div class="article-body">{content.paragraphs.map(paragraph=><p>{paragraph}</p>)}</div>}
+    </section>:<div class="article-body">{content.paragraphs.map((paragraph,index)=><>
+      <p>{paragraph}</p>
+      {article.photos?.filter(photo=>photo.copy[lang].afterParagraph===index+1).map(photo=><figure class:list={['article-photo', {'is-portrait':photo.height>photo.width}]}>
+        <a href={photo.src} aria-label={photo.copy[lang].alt + ' · ' + copy.viewPhoto}>
+          <img src={photo.src} width={photo.width} height={photo.height} alt={photo.copy[lang].alt} loading="lazy" decoding="async"/>
+        </a>
+        <figcaption>{photo.copy[lang].caption}</figcaption>
+      </figure>)}
+    </>)}{article.contactEmail&&<p class="article-contact"><a href={`mailto:${article.contactEmail}`}>{article.contactEmail}</a></p>}</div>}
     <a class="journal-return" href={localizedPath('/#latest',lang)}>{copy.returnHome} <span aria-hidden="true">↗</span></a>
   </article>
   <section class="more-articles" aria-labelledby="more-title"><h2 id="more-title">{copy.more}</h2><ArticleList lang={lang} items={latestArticles().filter(item=>item.id!==article.id).slice(0,2)}/></section>

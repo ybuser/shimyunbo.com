@@ -21,9 +21,14 @@ with sync_playwright() as p:
             for i, target in enumerate(targets):
                 page.goto(BASE + target)
                 assert page.locator('html').get_attribute('lang') == lang
-                assert page.locator('.empty-manuscript').is_visible()
+                if i < 2:
+                    assert page.locator('.article-body').is_visible()
+                    assert page.locator('.empty-manuscript').count() == 0
+                    assert page.locator('meta[name=robots]').count() == 0
+                else:
+                    assert page.locator('.empty-manuscript').is_visible()
+                    assert page.locator('meta[name=robots]').get_attribute('content') == 'noindex, follow'
                 assert page.locator('h1').count() == 1
-                assert page.locator('meta[name=robots]').get_attribute('content') == 'noindex, follow'
                 assert page.locator('link[rel=canonical]').get_attribute('href') == 'https://shimyunbo.com' + target
                 assert page.locator('link[hreflang=en]').count() == 1
                 assert page.locator('link[hreflang=ko]').count() == 1
@@ -31,6 +36,19 @@ with sync_playwright() as p:
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
                 assert target not in page.locator('.more-articles .article-link').evaluate_all('(els) => els.map(e => e.getAttribute("href"))')
                 if i == 0:
+                    assert page.locator('.article-photo').count() == 4
+                    for photo in page.locator('.article-photo img').all():
+                        photo.scroll_into_view_if_needed()
+                        photo.evaluate('(img) => img.decode()')
+                        assert photo.evaluate('(img) => img.naturalWidth === Number(img.getAttribute("width")) && img.naturalHeight === Number(img.getAttribute("height"))')
+                        assert photo.get_attribute('alt')
+                    assert page.locator('.article-photo figcaption').count() == 4
+                    photo_link = page.locator('.article-photo a').first
+                    photo_target = photo_link.get_attribute('href')
+                    photo_link.click()
+                    assert page.url.endswith(photo_target)
+                    page.go_back()
+                    assert page.url.endswith(target)
                     page.screenshot(path=f'/tmp/shimyunbo-article-{lang}-{width}.png', full_page=True)
                     page.locator('.journal-back').click()
                     assert page.url.endswith(prefix + '/#latest')
@@ -50,7 +68,8 @@ with sync_playwright() as p:
         page = context.new_page()
         page.goto(BASE + prefix + '/')
         page.locator('#latest .article-link').first.click()
-        assert page.locator('.empty-manuscript').is_visible()
+        assert page.locator('.article-body').is_visible()
+        assert page.locator('.article-photo').count() == 4
         page.locator('.journal-return').click()
         assert page.url.endswith('/#latest')
         context.close()

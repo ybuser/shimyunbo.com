@@ -31,6 +31,13 @@
 .manuscript-lines span{height:1px;background:#d9e0d4}.manuscript-lines span:last-child{width:64%}
 .journal-return{display:inline-flex;gap:30px;align-items:center;min-height:44px;font-size:13px;text-decoration:none;border-bottom:1px solid #607c68;color:#405d49}
 .article-body{font-size:17px;line-height:1.9;max-width:700px;padding:20px 0;color:var(--muted)}
+.article-body>p{margin:20px 0}
+.article-photo{margin:34px 0 40px}
+.article-photo a{display:block;border-radius:4px;overflow:hidden;background:#edf0e9}
+.article-photo img{display:block;width:100%;height:auto}
+.article-photo.is-portrait img{width:auto;max-width:100%;max-height:720px;margin:auto}
+.article-photo figcaption{margin-top:10px;font-size:12px;line-height:1.75;color:var(--muted)}
+html[lang=ko] .article-body{word-break:keep-all;overflow-wrap:break-word}
 .more-articles{margin:70px 0 0;border-top:2px solid #2e473e;padding-top:25px}
 .more-articles>h2{font:normal 27px/1.4 Georgia,serif;margin:0 0 10px}
 html[lang=ko] :is(.article-info h3,.article-heading h1,.empty-manuscript h2,.more-articles>h2){font-family:Arial,'Noto Sans KR',sans-serif;font-weight:500;word-break:keep-all;overflow-wrap:anywhere}
